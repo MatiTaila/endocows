@@ -22,7 +22,7 @@ function varargout = gui_curve_drawing(varargin)
 
 % Edit the above text to modify the response to help gui_curve_drawing
 
-% Last Modified by GUIDE v2.5 23-May-2013 11:45:40
+% Last Modified by GUIDE v2.5 21-May-2013 18:15:18
 
 % Begin initialization code - DO NOT EDIT
 gui_Singleton = 1;
@@ -103,7 +103,6 @@ ud.control_points=points;
 ud.handle_interpol=h_curve;
 ud.mode = 'normal';
 ud.id = ud.id+1;
-ud.type = 'closed';
 set(gcf,'UserData',ud);
 
 set(gcf,'WindowButtonUpFcn',['edit_curve(''' char(get(gcf,'tag')) ''',' num2str(i) ', 1)']);
@@ -228,23 +227,14 @@ if(fname~=0)
 	hold on
 	ud.mode = 'normal';
 	
-	if strcmp(ud.type, 'closed')
-		[xs, ys] = closed_spline(ud.control_points(:,1)',ud.control_points(:,2)');
-	else
-		s_div = 1/10;
-		t = 1:size(ud.control_points, 1);
-		ts = 1:s_div:size(ud.control_points, 1);
-		xs = spline(t,ud.control_points(:,1),ts);
-		ys = spline(t,ud.control_points(:,2),ts);
-	end
-		
-	h1 = plot(xs,ys,'--','color',colors{1},'Linewidth',2);
-	
 	for i=1:size(ud.control_points,1)
 		h_points(i) = plot(ud.control_points(i,1), ud.control_points(i,2), 'oy', 'linewidth', 2);
 		set(h_points(i),'tag',[get(gcf,'tag') '_control_' num2str(i)]);
 		set(h_points(i),'ButtonDownFcn',['edit_curve(''' char(get(gcf,'tag')) ''',' num2str(i) ', 0)']);
-	end	
+	end
+	
+	[xs, ys] = closed_spline(ud.control_points(:,1)',ud.control_points(:,2)');
+	h1 = plot(xs,ys,'--','color',colors{1},'Linewidth',2);
 	
 	set(h1,'tag',[get(gcf,'tag') '_interpolada']);
 	
@@ -262,64 +252,6 @@ end
 % handles    structure with handles and user data (see GUIDATA)
 
 
-% --- Executes on button press in opened_curve.
-function opened_curve_Callback(hObject, eventdata, handles)
-ultravacas_colors;
-button = 1;
-count =1;
-p=zeros(1,2);
-points = [];
-
-while button~=3
-	[p(1), p(2), button] = ginput(1);
-	if (isempty(points))
-		points = [p(1),p(2)];
-		gcf; hold on;
-		h_p = plot(p(1), p(2), 'oy', 'linewidth', 2);
-		count = count + 1;
-	else
-		delete(h_p)
-		if exist('h_c', 'var')
-			delete(h_c)
-		end
-		points(count,:) = p;
-		
-		s_div = 1/10;
-		t = 1:size(points, 1);
-		ts = 1:s_div:size(points, 1);
-		xs = spline(t,points(:,1),ts);
-		ys = spline(t,points(:,2),ts);
-		
-		gcf
-		h_c = plot(xs,ys,'--','color',colors{1},'Linewidth',2);
-		set(h_c,'tag', [get(gcf,'tag') '_interpolada']);
-		h_p=zeros(1,count);
-		for i=1:count
-			h_p(i) = plot(points(i,1), points(i,2), 'oy', 'linewidth', 2);
-			set(h_p(i),'tag',[get(gcf,'tag') '_control_' num2str(i)]);
-			set(h_p(i),'ButtonDownFcn',['edit_curve(''' char(get(gcf,'tag')) ''',' num2str(i) ', 0)']);
-		end
-		
-		set(gcf,'WindowButtonUpFcn',['edit_curve(''' char(get(gcf,'tag')) ''',' num2str(count) ', 1)']);
-		set(gcf,'WindowButtonMotionFcn',['edit_curve(''' char(get(gcf,'tag')) ''',' num2str(count) ', 2)']);
-		
-		count = count + 1;
-	end
-end
-
-ud=get(gcf,'UserData');
-ud.handle_interpol=h_c;
-ud.handle_control_points=h_p;
-ud.control_points=points;
-ud.mode = 'normal';
-ud.id = ud.id+1;
-ud.type = 'opened';
-set(gcf,'UserData',ud);
-% hObject    handle to opened_curve (see GCBO)
-% eventdata  reserved - to be defined in a future version of MATLAB
-% handles    structure with handles and user data (see GUIDATA)
-
-
 % --- Executes on button press in NextImage.
 function NextImage_Callback(hObject, eventdata, handles)
 ud = get(gcf,'UserData');
@@ -332,13 +264,24 @@ imshow( im )
 ud.currentImageName = nextImageName;
 set(gcf,'UserData',ud);
 set(findobj(gcf, 'tag','comments'), 'String','Comment:');
+
 % hObject    handle to NextImage (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
 
 
-% --- Executes on button press in PrevImage.
-function PrevImage_Callback(hObject, eventdata, handles)
-% hObject    handle to PrevImage (see GCBO)
+% --- Executes on button press in prev.
+function prev_Callback(hObject, eventdata, handles)
+ud = get(gcf,'UserData');
+ud.ImagesProcessed = ud.ImagesProcessed -1;
+dirinfo = ud.dirinfo;
+nextImageName = [ ud.ImagesPath dirinfo( ud.ImagesProcessed - 1 ).name ]
+gcf;
+im = imread( nextImageName );
+imshow( im )
+ud.currentImageName = nextImageName;
+set(gcf,'UserData',ud);
+set(findobj(gcf, 'tag','comments'), 'String','Comment:');
+% hObject    handle to prev (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)

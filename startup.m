@@ -37,16 +37,21 @@ c{4}='/oct-mat';
 
 l=length(c);
 p=[];
-for i=1:l
+% for i=1:l
+for i=1:2
     curr_path=[genpath([basedir c{i}])];
     fprintf('%s\n',curr_path);
     p=[p curr_path];
 end
 
 % % Agrego subdirectorios del path actual
-path_tmp=genpath(sprintf('%s%cpics', ultravacas_root, slash));
+path_tmp = genpath(sprintf('..%cdata', slash));
 p=[p path_tmp];
+path_tmp = genpath(sprintf('.%cm', slash));
+p=[p path_tmp];
+path_tmp = genpath(sprintf('.%cmanual_seg', slash));
 
+p=[p path_tmp];
 addpath(path,p)
 
 %% Other
@@ -58,3 +63,7 @@ slCharacterEncoding('UTF-8');
 
 % load colors
 ultravacas_colors
+
+%% Clear some variables
+
+clear basedir c curr_path homedir host_str hostname i l p path_tmp slash status ultravacas_root
