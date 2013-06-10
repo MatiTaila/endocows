@@ -110,14 +110,19 @@ while ~k
 end
 
 ud.ImagesProcessed = count - 1;
-
 ud.text_handle = show_text(fname);
-
+ud.comment = '';
 set(gcf,'UserData',ud);
+set(findobj('tag','comment'), 'String', ud.comment);
+
+show_curves(fname);
 
 
 % --- Executes on button press in nextImage.
 function nextImage_Callback(hObject, eventdata, handles)
+% hObject    handle to nextImage (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
 ud = get(gcf,'UserData');
 ud.n_curves = 0;
 ud.ImagesProcessed = ud.ImagesProcessed + 1;
@@ -130,14 +135,17 @@ ud.currentImageName = nextImageName;
 set(findobj(gcf, 'tag','comments'), 'String','Comment:');
 fname = ud.dirinfo(ud.ImagesProcessed + 1).name;
 ud.text_handle = show_text(fname);
+ud.comment = '';
 set(gcf,'UserData',ud);
-% hObject    handle to nextImage (see GCBO)
-% eventdata  reserved - to be defined in a future version of MATLAB
-% handles    structure with handles and user data (see GUIDATA)
+set(findobj('tag','comment'), 'String', ud.comment);
+show_curves(fname);
 
 
 % --- Executes on button press in prevImage.
 function prevImage_Callback(hObject, eventdata, handles)
+% hObject    handle to prevImage (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
 ud = get(gcf,'UserData');
 ud.n_curves = 0;
 ud.ImagesProcessed = ud.ImagesProcessed - 1;
@@ -150,10 +158,10 @@ ud.currentImageName = nextImageName;
 set(findobj(gcf, 'tag','comments'), 'String','Comment:');
 fname = ud.dirinfo(ud.ImagesProcessed + 1).name;
 ud.text_handle = show_text(fname);
+ud.comment = '';
 set(gcf,'UserData',ud);
-% hObject    handle to prevImage (see GCBO)
-% eventdata  reserved - to be defined in a future version of MATLAB
-% handles    structure with handles and user data (see GUIDATA)
+set(findobj('tag','comment'), 'String', ud.comment);
+show_curves(fname);
 
 
 % --- Executes on button press in export.
@@ -161,6 +169,31 @@ function export_Callback(hObject, eventdata, handles)
 % hObject    handle to export (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
+ud=get(gcf, 'UserData');
+new_path = sprintf([ud.ImagesPath, 'logs']);
+mkdir_cmd = sprintf(['mkdir ' new_path]);
+if ~exist(new_path, 'dir')
+	disp(['Creating folder: ' new_path ' ...']);
+	system(mkdir_cmd);
+	disp('Done!');
+end
+files = dir([ud.ImagesPath, '/*.mat']);
+old_path = pwd;
+cd(new_path);
+
+% output file name
+count = 0;
+base_tar_name = 'all_logs_';
+tar_name = [base_tar_name num2str(count) '.tar'];
+while exist(tar_name, 'file')
+	count = count+1;
+	tar_name = [base_tar_name num2str(count) '.tar'];
+end
+
+disp(['Exporting all curves into: ' new_path '/' tar_name ' ...']);
+tar(tar_name, {files.name}, ud.ImagesPath);
+disp('Done!');
+cd(old_path)
 
 
 % --- Executes on button press in save.
@@ -168,7 +201,18 @@ function save_Callback(hObject, eventdata, handles)
 % hObject    handle to save (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
-keyboard
+ud = get(gcf,'UserData');
+ud.comment = get(findobj(gcf, 'tag','comments'), 'String');
+set(gcf,'UserData',ud);
+fname = ud.currentImageName;
+count = 0;
+log_name = [fname '_' num2str(count)];
+while exist([log_name '.mat'],'file')
+	log_name = [fname '_' num2str(count)];
+	count = count+1;
+end
+save([log_name '.mat'],'-struct','ud')
+disp(['Saved file: ' log_name '.mat']);
 
 
 % --- Executes on button press in drawCurve.
@@ -232,6 +276,23 @@ function showHideCurves_Callback(hObject, eventdata, handles)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
 % Hint: get(hObject,'Value') returns toggle state of showHideCurves
+ud = get(gcf, 'UserData');
+if ~isempty(ud.control_points)
+	keyboard
+	state = get(ud.handle_interpol(1), 'Visible');
+	if strcmp(state, 'on')
+		new_state = 'off';
+	else
+		new_state = 'on';
+	end
+	for i=1:size(ud.handle_interpol,2)
+		set(ud.handle_interpol(i), 'Visible', new_state)
+		for j=1:size(ud.handle_control_points{i},1)
+			set(ud.handle_control_points{i}(j), 'Visible', new_state);
+		end
+	end
+end
+set(gcf, 'UserData', ud);
 
 
 % --- Executes on button press in show1Curve.
@@ -239,6 +300,10 @@ function show1Curve_Callback(hObject, eventdata, handles)
 % hObject    handle to show1Curve (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
+[fname,PathName,FilterIndex] = uigetfile({'*.mat'},'.');
+if(fname~=0)
+	show_curve([PathName fname]);
+end
 
 
 % --- Executes on button press in clearAll.
@@ -246,6 +311,16 @@ function clearAll_Callback(hObject, eventdata, handles)
 % hObject    handle to clearAll (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
+ud = get(gcf,'UserData');
+ud.n_curves = 0;
+for i=1:size(ud.handle_control_points,2)
+	delete(ud.handle_control_points{i});
+	delete(ud.handle_interpol(i));
+end
+ud.handle_control_points = {};
+ud.control_points = {};
+ud.handle_interpol = 0;
+set(gcf, 'UserData', ud);
 
 
 function h = show_text(str)
@@ -268,3 +343,72 @@ str = get(th_in,'String');
 str(size(str,1)+1) = {str_in};
 th = th_in;
 set(th,'String', str);
+
+
+function show_curves(fname)
+ud = get(gcf,'UserData');
+obj = findobj('tag','showHideCurves');
+button_state = get(obj,'Value');
+
+logs = dir([ud.ImagesPath, fname '*.mat']);
+if ~isempty(logs)
+	for i=1:size(logs,1)
+		show_curve([ud.ImagesPath logs(i).name]);
+	end
+end
+
+if button_state == get(obj,'Min')
+	ud = get(gcf, 'UserData');
+	for i=1:size(ud.handle_interpol,2)
+		set(ud.handle_interpol(i), 'Visible', 'off')
+		for j=1:size(ud.handle_control_points{i},1)
+			set(ud.handle_control_points{i}(j), 'Visible', 'off');
+		end
+	end
+	set(gcf, 'UserData', ud);
+end
+
+
+function show_curve(path)
+ultravacas_colors;
+data = load(path);
+hold on;
+
+ud = get(gcf,'UserData');
+
+if ~isempty(data.control_points)
+	if iscell(data.control_points)
+		% version nueva - multiples curvas
+	else
+		ud.n_curves = ud.n_curves + 1;
+		
+		[xs, ys] = closed_spline(data.control_points(:,1)',data.control_points(:,2)');
+		h_curve = plot(xs,ys,'--','color',colors{1},'Linewidth',2);
+		
+		str = [get(gcf,'tag') '_interpolada_' ud.n_curves];
+		set(h_curve,'tag',str);
+		
+		h_points=zeros(size(data.control_points,1),1);
+		for i=1:size(data.control_points,1)
+			h_points(i) = plot(data.control_points(i,1), data.control_points(i,2), 'oy', 'linewidth', 2);
+			set(h_points(i),'tag',[get(gcf,'tag') '_control_' num2str(ud.n_curves) '_' num2str(i)]);
+			set(h_points(i),'ButtonDownFcn',['edit_closed_curve(''' char(get(gcf,'tag')) ''',' num2str(ud.n_curves) ',' num2str(i) ', 0)']);
+		end
+		
+		ud.handle_control_points(ud.n_curves) = {h_points};
+		ud.control_points(ud.n_curves) = {data.control_points};
+		ud.handle_interpol(ud.n_curves) = h_curve;
+		ud.mode = 'normal';
+		
+% 		set(gcf,'UserData',ud);
+		set(gcf,'WindowButtonUpFcn',['edit_closed_curve(''' char(get(gcf,'tag')) ''',' num2str(ud.n_curves) ', 0 , 1)']);
+		set(gcf,'WindowButtonMotionFcn',['edit_closed_curve(''' char(get(gcf,'tag')) ''',' num2str(ud.n_curves) ', 0, 2)']);
+	end
+end
+
+comment_obj = findobj('tag','comment');
+new_comment = [get(comment_obj, 'String') ' - ' data.comment];
+set(comment_obj, 'String', new_comment);
+ud.comment = new_comment;
+
+set(gcf, 'UserData', ud);
