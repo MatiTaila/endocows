@@ -81,7 +81,11 @@ function loadImage_Callback(hObject, eventdata, handles)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
 
-[fname,PathName,FilterIndex] = uigetfile({'*.png;*.jpg;*.jpeg;*.tif'},'.');
+[fname,PathName,FilterIndex] = uigetfile({'*.png', 'All png images (*.png)'; ...
+	'*.png; *.jpg; *.jpeg; *.pnm; *.tiff', 'All images (*.png; *.jpg; *.jpeg; *.pnm; *.tiff)'; ...
+	'*.*', 'All files (*.*)'}, ...
+	'Select image for manual segmentation', ...
+	'../data');
 if(fname~=0)
     currentImageName = [PathName fname];
 	im=imread( currentImageName );
@@ -127,6 +131,9 @@ ud = get(gcf,'UserData');
 ud.n_curves = 0;
 ud.ImagesProcessed = ud.ImagesProcessed + 1;
 dirinfo = ud.dirinfo;
+if ud.ImagesProcessed == size(dirinfo,1)
+	ud.ImagesProcessed = 0;
+end
 nextImageName = [ ud.ImagesPath dirinfo( ud.ImagesProcessed + 1 ).name ];
 gcf;
 im = imread( nextImageName );
@@ -150,6 +157,9 @@ ud = get(gcf,'UserData');
 ud.n_curves = 0;
 ud.ImagesProcessed = ud.ImagesProcessed - 1;
 dirinfo = ud.dirinfo;
+if ud.ImagesProcessed == -1
+	ud.ImagesProcessed = size(dirinfo,1)-1;
+end
 nextImageName = [ ud.ImagesPath dirinfo( ud.ImagesProcessed + 1 ).name ];
 gcf;
 im = imread( nextImageName );
@@ -278,7 +288,6 @@ function showHideCurves_Callback(hObject, eventdata, handles)
 % Hint: get(hObject,'Value') returns toggle state of showHideCurves
 ud = get(gcf, 'UserData');
 if ~isempty(ud.control_points)
-	keyboard
 	state = get(ud.handle_interpol(1), 'Visible');
 	if strcmp(state, 'on')
 		new_state = 'off';
@@ -300,7 +309,16 @@ function show1Curve_Callback(hObject, eventdata, handles)
 % hObject    handle to show1Curve (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
-[fname,PathName,FilterIndex] = uigetfile({'*.mat'},'.');
+ud = get(gcf, 'UserData');
+fname = ud.dirinfo(ud.ImagesProcessed + 1).name;
+vaca_id = sscanf(fname, '%*c%*d%*c%*d%*c%*d%*c%d*');
+[fname,PathName,FilterIndex] = uigetfile({...
+	[fname '*.mat'], 'Saved curves for this image'; ...
+	['*' num2str(vaca_id) '*.mat'], 'Saved curves for this cow'; ...
+	'*.mat', 'All Matlab Files (*.mat)'; ...
+	'*.*', 'All Files (*.*)'}, ...
+	'Select *.mat file to show saved curves', ...
+	ud.ImagesPath);
 if(fname~=0)
 	show_curve([PathName fname]);
 end
@@ -320,7 +338,9 @@ end
 ud.handle_control_points = {};
 ud.control_points = {};
 ud.handle_interpol = 0;
-set(gcf, 'UserData', ud);
+ud.comment = '';
+set(gcf,'UserData',ud);
+set(findobj('tag','comment'), 'String', ud.comment);
 
 
 function h = show_text(str)
@@ -379,6 +399,31 @@ ud = get(gcf,'UserData');
 if ~isempty(data.control_points)
 	if iscell(data.control_points)
 		% version nueva - multiples curvas
+		for k=1:data.n_curves
+			ud.n_curves = ud.n_curves + 1;
+			[xs, ys] = closed_spline(data.control_points{k}(:,1)',data.control_points{k}(:,2)');
+			h_curve = plot(xs,ys,'--','color',colors{1},'Linewidth',2);
+			
+			str = [get(gcf,'tag') '_interpolada_' ud.n_curves];
+			set(h_curve,'tag',str);
+
+			h_points=zeros(size(data.control_points{k},1),1);
+			
+			for i=1:size(data.control_points{k},1)
+				h_points(i) = plot(data.control_points{k}(i,1), data.control_points{k}(i,2), 'oy', 'linewidth', 2);
+				set(h_points(i),'tag',[get(gcf,'tag') '_control_' num2str(ud.n_curves) '_' num2str(i)]);
+				set(h_points(i),'ButtonDownFcn',['edit_closed_curve(''' char(get(gcf,'tag')) ''',' num2str(ud.n_curves) ',' num2str(i) ', 0)']);
+			end
+% 			keyboard
+			ud.handle_control_points(ud.n_curves) = {h_points};
+			ud.control_points(ud.n_curves) = {data.control_points{k}};
+			ud.handle_interpol(ud.n_curves) = h_curve;
+			ud.mode = 'normal';
+
+			set(gcf,'WindowButtonUpFcn',['edit_closed_curve(''' char(get(gcf,'tag')) ''',' num2str(ud.n_curves) ', 0 , 1)']);
+			set(gcf,'WindowButtonMotionFcn',['edit_closed_curve(''' char(get(gcf,'tag')) ''',' num2str(ud.n_curves) ', 0, 2)']);
+		end
+		
 	else
 		ud.n_curves = ud.n_curves + 1;
 		
@@ -400,7 +445,6 @@ if ~isempty(data.control_points)
 		ud.handle_interpol(ud.n_curves) = h_curve;
 		ud.mode = 'normal';
 		
-% 		set(gcf,'UserData',ud);
 		set(gcf,'WindowButtonUpFcn',['edit_closed_curve(''' char(get(gcf,'tag')) ''',' num2str(ud.n_curves) ', 0 , 1)']);
 		set(gcf,'WindowButtonMotionFcn',['edit_closed_curve(''' char(get(gcf,'tag')) ''',' num2str(ud.n_curves) ', 0, 2)']);
 	end
