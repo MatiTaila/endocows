@@ -12,6 +12,9 @@ handleManual{1} = [];
 
 while(button ~= 3)
 	[pt(1), pt(2), button] = ginput(1);
+	if button == 3
+		break;
+	end
 	if (isempty(points))
 		points = [pt(1),pt(2)];
 		hold on; h = plot(pt(1), pt(2), 'oy', 'linewidth', 2);

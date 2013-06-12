@@ -16,5 +16,10 @@
 *.out
 *.app
 
+# Latex
+*.aux
+*.log
+*.out
+
 # Misc
 *~
