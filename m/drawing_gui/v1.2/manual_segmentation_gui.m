@@ -390,6 +390,7 @@ end
 
 
 function show_curve(path)
+wid = 1.8;
 ultravacas_colors;
 data = load(path);
 hold on;
@@ -402,7 +403,7 @@ if ~isempty(data.control_points)
 		for k=1:data.n_curves
 			ud.n_curves = ud.n_curves + 1;
 			[xs, ys] = closed_spline(data.control_points{k}(:,1)',data.control_points{k}(:,2)');
-			h_curve = plot(xs,ys,'--','color',colors{1},'Linewidth',2);
+			h_curve = plot(xs,ys,'--','color',colors{1},'Linewidth',wid);
 			
 			str = [get(gcf,'tag') '_interpolada_' ud.n_curves];
 			set(h_curve,'tag',str);
@@ -410,7 +411,7 @@ if ~isempty(data.control_points)
 			h_points=zeros(size(data.control_points{k},1),1);
 			
 			for i=1:size(data.control_points{k},1)
-				h_points(i) = plot(data.control_points{k}(i,1), data.control_points{k}(i,2), 'oy', 'linewidth', 2);
+				h_points(i) = plot(data.control_points{k}(i,1), data.control_points{k}(i,2), 'oy', 'linewidth', wid);
 				set(h_points(i),'tag',[get(gcf,'tag') '_control_' num2str(ud.n_curves) '_' num2str(i)]);
 				set(h_points(i),'ButtonDownFcn',['edit_closed_curve(''' char(get(gcf,'tag')) ''',' num2str(ud.n_curves) ',' num2str(i) ', 0)']);
 			end
@@ -428,14 +429,14 @@ if ~isempty(data.control_points)
 		ud.n_curves = ud.n_curves + 1;
 		
 		[xs, ys] = closed_spline(data.control_points(:,1)',data.control_points(:,2)');
-		h_curve = plot(xs,ys,'--','color',colors{1},'Linewidth',2);
+		h_curve = plot(xs,ys,'--','color',colors{1},'Linewidth',wid);
 		
 		str = [get(gcf,'tag') '_interpolada_' ud.n_curves];
 		set(h_curve,'tag',str);
 		
 		h_points=zeros(size(data.control_points,1),1);
 		for i=1:size(data.control_points,1)
-			h_points(i) = plot(data.control_points(i,1), data.control_points(i,2), 'oy', 'linewidth', 2);
+			h_points(i) = plot(data.control_points(i,1), data.control_points(i,2), 'oy', 'linewidth', wid);
 			set(h_points(i),'tag',[get(gcf,'tag') '_control_' num2str(ud.n_curves) '_' num2str(i)]);
 			set(h_points(i),'ButtonDownFcn',['edit_closed_curve(''' char(get(gcf,'tag')) ''',' num2str(ud.n_curves) ',' num2str(i) ', 0)']);
 		end
