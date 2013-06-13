@@ -64,21 +64,21 @@ This version of the program incorporates some new functionalities and makes the 
 	%It is important to highlight that the curve is finalized if and only if the user makes a right click over the image
 	\emph{To finalize the curve a right click over the image is needed.}
 	\item \textbf{Show/Hide Info}: As can be noticed in figure \ref{fig:interfaz}, a legend is printed on the lower part of the image, showing the name of the image file. The toggle button \emph{Show/Hide Info} is used to show or hide this legend. Each time the button is pressed, alternates between showing or hiding the legend.
-	\item \textbf{Show/Hide Curves}: As the previous one, this is also a toggle button. Each time this button is pressed, it alternates between showing or not saved curves. By default, this button is pressed, which means that when a new image is loaded (by \emph{Load Image}, \emph{Next Image} or \emph{Prev Image}), the program looks for all saved curves in current path and shows them. If the button is turned off, the program will no l
-	\item \textbf{Show 1 curve}: 
-	\item \textbf{Clear all}: 
-	\item \textbf{SAVE}: 
-	\item \textbf{Comments}: 
-	\item \textbf{Export All}: 
+	\item \textbf{Show/Hide Curves}: As the previous one, this is also a toggle button. Each time this button is pressed, it alternates between showing or not saved curves. By default, this button is pressed, which means that when a new image is loaded (by \emph{Load Image}, \emph{Next Image} or \emph{Prev Image}), the program looks for all saved curves in current path and shows them. If the button is turned off, the program will no longer show the saved curves.
+	\item \textbf{Show 1 curve}: This button shows a pop-up window so as the user can select which curve to show. By default the pop-up window shows only saved curves for the current image, but has the options for showing all saved curves for the current patient, or all the saved curves in the current path.
+	\item \textbf{Clear all}: This button clears all curves shown. It will not erase the saved curves file.
+	\item \textbf{SAVE}: By clicking this button all curves drew in the current image will be saved to a \emph{.mat} file in the current directory. \textbf{Do not forget to save curves!}
+	\item \textbf{Comments}: This field is meant to be used for the user to write down some comments about the image, the curves or the diagnostic. If Endometritis is found, \textbf{do not forget to write it down here!}
+	\item \textbf{Export All}: By clicking this button, a folder named \textbf{logs} will be created (if it does not exist) inside the images folder and will save a \emph{.tar} file containing all saved curves for all images in the current folder. It makes easier to share results with us.
 \end{enumerate}
-
-
-
-
 
 
 \section{Instructions for usage}
 
+\begin{enumerate}
+	\item First of all we need to uncompress the \emph{.zip} with the code in certain folder. Let me call it \emph{src_path}.
+	\item Localize 
+\end{enumerate}
 
 
 
