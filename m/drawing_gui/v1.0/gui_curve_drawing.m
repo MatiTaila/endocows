@@ -22,7 +22,7 @@ function varargout = gui_curve_drawing(varargin)
 
 % Edit the above text to modify the response to help gui_curve_drawing
 
-% Last Modified by GUIDE v2.5 17-May-2013 11:35:30
+% Last Modified by GUIDE v2.5 23-May-2013 11:45:40
 
 % Begin initialization code - DO NOT EDIT
 gui_Singleton = 1;
@@ -134,7 +134,8 @@ set(gcf,'UserData',ud);
 function load_image_tag_Callback(hObject, eventdata, handles)
 [fname,PathName,FilterIndex] = uigetfile({'*.png;*.jpg;*.jpeg;*.tif'},'.');
 if(fname~=0)
-	im=imread([PathName fname]);
+    currentImageName = [PathName fname];
+	im=imread( currentImageName );
 	gcf;
 	imshow(im);
 	set(gcf,'tag',fname);
@@ -148,6 +149,11 @@ ud.id=0;
 ud.handle_control_points=[];
 ud.control_points=[];
 ud.handle_interpol=0;
+ud.ImagesPath = PathName;
+dirinfo = dir([ud.ImagesPath, '/*.png']);
+ud.dirinfo = dirinfo;
+ud.ImagesProcessed = 0;
+ud.currentImageName = currentImageName;
 set(gcf,'UserData',ud);
 % [fname,PathName,FilterIndex] = uigetfile('c:/vips/incoming/converted/*.png');
 % hObject    handle to load_image_tag (see GCBO)
@@ -161,17 +167,18 @@ ud = get(gcf,'UserData');
 ud.comment = get(findobj(gcf, 'tag','comments'), 'String');
 set(gcf,'UserData',ud);
 
-fname = ['./logs/' get(gcf, 'tag')];
+% fname = ['./logs/' get(gcf, 'tag')];
+fname = ud.currentImageName;
 
-f=fopen([fname '.xml'],'w');
-fprintf(f,'%s\n',['<curva' num2str(ud.id) '>']);
-fprintf(f,'\t%s\n','<control_points>');
-for i=1:size(ud.control_points,1)
-	fprintf(f,'\t\t%d\t%d\n',ud.control_points(i,1), ud.control_points(i,2));
-end
-fprintf(f,'\t%s\n','</control_points>');
-fprintf(f,'%s\n',['</curva' num2str(ud.id) '>']);
-fclose(f);
+% f=fopen([fname '.xml'],'w');
+% fprintf(f,'%s\n',['<curva' num2str(ud.id) '>']);
+% fprintf(f,'\t%s\n','<control_points>');
+% for i=1:size(ud.control_points,1)
+% 	fprintf(f,'\t\t%d\t%d\n',ud.control_points(i,1), ud.control_points(i,2));
+% end
+% fprintf(f,'\t%s\n','</control_points>');
+% fprintf(f,'%s\n',['</curva' num2str(ud.id) '>']);
+% fclose(f);
 
 count = 0;
 log_name = [fname '_' num2str(count)];
@@ -309,5 +316,29 @@ ud.id = ud.id+1;
 ud.type = 'opened';
 set(gcf,'UserData',ud);
 % hObject    handle to opened_curve (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+
+% --- Executes on button press in NextImage.
+function NextImage_Callback(hObject, eventdata, handles)
+ud = get(gcf,'UserData');
+ud.ImagesProcessed = ud.ImagesProcessed + 1;
+dirinfo = ud.dirinfo;
+nextImageName = [ ud.ImagesPath dirinfo( ud.ImagesProcessed + 1 ).name ]
+gcf;
+im = imread( nextImageName );
+imshow( im )
+ud.currentImageName = nextImageName;
+set(gcf,'UserData',ud);
+set(findobj(gcf, 'tag','comments'), 'String','Comment:');
+% hObject    handle to NextImage (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+
+% --- Executes on button press in PrevImage.
+function PrevImage_Callback(hObject, eventdata, handles)
+% hObject    handle to PrevImage (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
