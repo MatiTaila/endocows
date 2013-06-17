@@ -72,27 +72,27 @@ This version of the program incorporates some new functionalities and makes the 
 	\item \textbf{Export All}: By clicking this button, a folder named \textbf{logs} will be created (if it does not exist) inside the images folder and will save a \emph{.tar} file containing all saved curves for all images in the current folder. It makes easier to share results with us.
 \end{enumerate}
 
-\begin{figure}[h!]
-	\begin{center}
-	\includegraphics[width=.8\textwidth]{toolbar.jpg}
-	\end{center}
-	\caption{User Interface}
-	\label{fig:interfaz}
-\end{figure}
-
-
 \section{Instructions for usage}
 
 \begin{enumerate}
 	\item First of all we need to uncompress the \emph{.zip} with the code in certain folder. Let me call it \emph{src\_path}.
 	\item Localize the images folder and let me call it \emph{images\_path}.
 	\item Open up \emph{MatLab}
+
+	\begin{figure}[h!]
+		\begin{center}
+		\includegraphics[width=.7\textwidth]{toolbar.jpg}
+		\end{center}
+		\caption{User Interface}
+		\label{fig:toolbar}
+	\end{figure}
+
 	\item It will probably open in a working directory, different from both \emph{src\_path} and \emph{images\_path}, so the first thing we need to do is navigate to \emph{src\_path}. How do we do that? 
 	\begin{itemize}
-		\item In the upper part of Matlab main window there is a \emph{Current Folder Toolbar}. We need to use it to navigate to our \emph{scr\_path}. The are various ways to get this done. The easiest way is to click the ``$\gg$'' symbol shown in the \emph{Current Folder Toolbar} repeatedly up to we arrive to the \emph{src\_path}. The other way is to click the folder icon shown in said toolbar and navigate to the \emph{src\_path}.
+		\item In the upper part of Matlab main window there is a \emph{Current Folder Toolbar}, as shown in figure \ref{fig:toolbar}. We need to use it to navigate to our \emph{scr\_path}. The are various ways to get this done. The easiest way is to click the ``$\gg$'' symbol shown in the \emph{Current Folder Toolbar} repeatedly up to we arrive to the \emph{src\_path}. The other way is to click the folder icon shown in said toolbar and navigate to the \emph{src\_path}.
 	\end{itemize}
 	\item Place the cursor in the Matlab main windows by clicking anywhere inside that window
-	\item Type \emph{manual\_segmentation\_gui} and press Enter
+	\item Type \emph{cows\_manual\_segmentation\_gui\_mac} and press Enter
 	\item The main interface will appear, like the one shown in figure \ref{fig:interfaz}.
 	\item Do not forget to save curves!
 \end{enumerate}
