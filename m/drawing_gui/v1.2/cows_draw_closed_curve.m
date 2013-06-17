@@ -1,4 +1,4 @@
-function [points, h_curve, h_points] = draw_closed_curve(curve_id)
+function [points, h_curve, h_points] = cows_draw_closed_curve(curve_id)
 
 wid = 1.8;
 
@@ -27,7 +27,7 @@ while(button ~= 3)
 			tmp(end+1,:) = points(end,:);
 			h2 = plot(tmp(:,1), tmp(:,2), 'y--', 'linewidth', wid);
 		else
-			[xs, ys] = closed_spline(points(:,1)',points(:,2)');
+			[xs, ys] = cows_closed_spline(points(:,1)',points(:,2)');
 			
 			% Find the position of the last (fin) and first (deb) points of fd.points in xs and ys
 			fin = find((xs == points(end,1)) & (ys == points(end,2)) );
@@ -78,7 +78,7 @@ h_points=zeros(size(points,1),1);
 for i=1:size(points,1)
 	h_points(i) = plot(points(i,1), points(i,2), 'oy', 'linewidth', wid);
 	set(h_points(i),'tag',[get(gcf,'tag') '_control_' num2str(curve_id) '_' num2str(i)]);
-	set(h_points(i),'ButtonDownFcn',['edit_closed_curve(''' char(get(gcf,'tag')) ''',' num2str(curve_id) ',' num2str(i) ', 0)']);
+	set(h_points(i),'ButtonDownFcn',['cows_edit_closed_curve(''' char(get(gcf,'tag')) ''',' num2str(curve_id) ',' num2str(i) ', 0)']);
 end
 
 h_curve = h1;

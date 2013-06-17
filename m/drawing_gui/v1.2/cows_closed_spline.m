@@ -1,4 +1,4 @@
-function [xs, ys] = closed_spline(x, y)
+function [xs, ys] = cows_closed_spline(x, y)
 %-- "Looping" the points to have a nice closed contour
 i = 7;      %-- Number of extra points added
 if length(x) > i       %-- Check if the number of point is sufficient

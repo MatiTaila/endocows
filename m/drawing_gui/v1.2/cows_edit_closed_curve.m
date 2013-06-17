@@ -1,4 +1,4 @@
-function edit_closed_curve(fname, curve_id, point_id, fcn)
+function cows_edit_closed_curve(fname, curve_id, point_id, fcn)
 
 ultravacas_colors;
 f=gcf;
@@ -41,7 +41,7 @@ switch fcn
 % 			keyboard
 			set(t,'XData',p(1)); set(t,'YData',p(2));
 			
-			[xs, ys] = closed_spline(ud.control_points{ud.curr_curve}(:,1)',ud.control_points{ud.curr_curve}(:,2)');
+			[xs, ys] = cows_closed_spline(ud.control_points{ud.curr_curve}(:,1)',ud.control_points{ud.curr_curve}(:,2)');
 			t = findobj(f,'tag',[fname '_interpolada_' ud.curr_curve]);
 			set(t,'XData',xs); set(t,'YData',ys);
 			set(f, 'UserData', ud);
