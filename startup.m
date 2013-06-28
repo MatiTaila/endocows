@@ -45,11 +45,11 @@ for i=1:2
 end
 
 % % Agrego subdirectorios del path actual
-path_tmp = genpath(sprintf('..%cdata', slash));
+path_tmp = genpath(sprintf('%s%cdata', ultravacas_root, slash));
 p=[p path_tmp];
-path_tmp = genpath(sprintf('.%cm', slash));
+path_tmp = genpath(sprintf('%s%cm', ultravacas_root, slash));
 p=[p path_tmp];
-path_tmp = genpath(sprintf('.%cmanual_seg', slash));
+path_tmp = genpath(sprintf('%s%cmanual_seg', ultravacas_root, slash));
 
 p=[p path_tmp];
 addpath(path,p)
@@ -67,3 +67,7 @@ ultravacas_colors
 %% Clear some variables
 
 clear basedir c curr_path homedir host_str hostname i l p path_tmp slash status ultravacas_root
+
+%% Change to work directory
+
+cd work
