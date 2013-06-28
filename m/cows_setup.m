@@ -3,13 +3,11 @@ function cows_setup(varargin)
 % function cows_setup(varargin)
 % -------------------------------------------------------------------------
 % Usage:
-%   ex1: cows_setup('data_dir', '~/matitai/facultad/ultravacas/data',...
-%			'data_set', 'lema');
-%	ex2: cows_setup('data_dir', '~/matitai/facultad/ultravacas/data',...
+%	cows_setup('data_dir', '~/matitai/facultad/ultravacas/data',...
 % 			'data_set', 'lema', 'overwrite', 0);
-%		 cows_setup('data_dir', '~/matitai/facultad/ultravacas/data',...
+%	cows_setup('data_dir', '~/matitai/facultad/ultravacas/data',...
 % 			'data_set', 'cerros1', 'overwrite', 0);
-%		 cows_setup('data_dir', '~/matitai/facultad/ultravacas/data',...
+%	cows_setup('data_dir', '~/matitai/facultad/ultravacas/data',...
 % 			'data_set', 'cerros2', 'overwrite', 0);
 % -------------------------------------------------------------------------
 
@@ -54,9 +52,9 @@ for k=1:n_patients
 	patient.control_points = {};
 	patient.n_curves = [];
 	
-	segmented_info = dir([opt.data_dir, ['/*' num2str(patient.id) '*_0.mat']]);
+	segmented_info = dir([[opt.data_dir '/' opt.data_set], ['/*' num2str(patient.id) '*_0.mat']]);
 	for j=1:size(segmented_info,1) % for sobre las imagenes segmentadas
-		patient_info = dir([opt.data_dir, ['/*' num2str(patient.id) '*.png']]);
+		patient_info = dir([[opt.data_dir '/' opt.data_set], ['/*' num2str(patient.id) '*.png']]);
 		ind = 0;
 		for i=1:size(patient_info, 1)
 			if strcmp(patient_info(i).name, segmented_info(j).name(1:end-6));
@@ -78,10 +76,10 @@ end
 function patient = addUserData2Database(patient, opt)
 
 for i = 1:length(patient.selected_pics)
-	logs = dir([opt.data_dir, ['/' patient.selected_pics{i} '*.mat']]);
+	logs = dir([[opt.data_dir '/' opt.data_set], ['/' patient.selected_pics{i} '*.mat']]);
 	aux.n_curves = 0;
 	for j = 1:size(logs,1)
-		data = load([opt.data_dir '/' logs(j).name]);
+		data = load([opt.data_dir '/' opt.data_set '/' logs(j).name]);
 		if ~isempty(data.control_points)
 			if iscell(data.control_points)
 				for k=1:data.n_curves

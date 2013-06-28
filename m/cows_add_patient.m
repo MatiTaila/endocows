@@ -34,5 +34,5 @@ if state.bkp
 	fprintf('Saving backup: %s ...\n',database_filename_backup);
 	fprintf('  cmd: %s\n', cmd);
 	system(cmd);
-	save(database_filename,'patients','data_dir');
+	save(database_filename,'patients');
 end
