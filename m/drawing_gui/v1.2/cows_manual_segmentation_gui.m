@@ -85,7 +85,7 @@ function loadImage_Callback(hObject, eventdata, handles)
 	'*.png; *.jpg; *.jpeg; *.pnm; *.tiff', 'All images (*.png; *.jpg; *.jpeg; *.pnm; *.tiff)'; ...
 	'*.*', 'All files (*.*)'}, ...
 	'Select image for manual segmentation', ...
-	'../data');
+	'../../data');
 if(fname~=0)
     currentImageName = [PathName fname];
 	im=imread( currentImageName );
@@ -425,6 +425,9 @@ if ~isempty(data.control_points)
 			set(gcf,'WindowButtonMotionFcn',['cows_edit_closed_curve(''' char(get(gcf,'tag')) ''',' num2str(ud.n_curves) ', 0, 2)']);
 		end
 		
+% 		assignin('base', 'xCurve', xs);
+% 		assignin('base', 'yCurve', ys);
+		
 	else
 		ud.n_curves = ud.n_curves + 1;
 		
@@ -448,6 +451,10 @@ if ~isempty(data.control_points)
 		
 		set(gcf,'WindowButtonUpFcn',['cows_edit_closed_curve(''' char(get(gcf,'tag')) ''',' num2str(ud.n_curves) ', 0 , 1)']);
 		set(gcf,'WindowButtonMotionFcn',['cows_edit_closed_curve(''' char(get(gcf,'tag')) ''',' num2str(ud.n_curves) ', 0, 2)']);
+		
+% 		assignin('base', 'xCurve', xs);
+% 		assignin('base', 'yCurve', ys);
+		
 	end
 end
 
@@ -457,3 +464,4 @@ set(comment_obj, 'String', new_comment);
 ud.comment = new_comment;
 
 set(gcf, 'UserData', ud);
+% keyboard
