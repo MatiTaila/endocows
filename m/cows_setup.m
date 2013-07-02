@@ -51,6 +51,7 @@ for k=1:n_patients
 	patient.selected_pics = {};
 	patient.control_points = {};
 	patient.n_curves = [];
+	patient.path = [];
 	
 	segmented_info = dir([[opt.data_dir '/' opt.data_set], ['/*' num2str(patient.id) '*_0.mat']]);
 	for j=1:size(segmented_info,1) % for sobre las imagenes segmentadas
@@ -67,8 +68,7 @@ for k=1:n_patients
 		end
 	end
 	patient = addUserData2Database(patient, opt);
-% 	patient
-% 	keyboard
+	patient.path = opt.data_dir;
 	cows_add_patient(patient, opt.overwrite);
 end
 
