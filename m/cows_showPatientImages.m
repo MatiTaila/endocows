@@ -13,18 +13,22 @@ end
 
 if nImg == 0
 	fprintf('There is no images to show for this patient.\n');
+	return
 end
 
-wid = 1.8;
-ultravacas_colors;
+wid = 1.4;
+colors = cows_colors;
+
+fprintf('Patient: %d\n', p.id);
 
 for k=1:nImg
 	i = images(k);
-	figure;
+	fig = figure(329+k);
+	set(fig, 'Position', [500+k*224,1200,224,384])
 	imshow(imread([p.path '/' p.tambo '/' p.selected_pics{i}]));
 	hold on
 	for j=1:length(p.control_points{i})
-		plot(p.control_points{i}{j}(:,1), p.control_points{i}{j}(:,2), 'o', 'color', colors{1});
+		plot(p.control_points{i}{j}(:,1), p.control_points{i}{j}(:,2), '.', 'color', colors{1});
 		[xs, ys] = cows_closed_spline(p.control_points{i}{j}(:,1)',p.control_points{i}{j}(:,2)');
 		plot(xs, ys, '--', 'color', 'y', 'Linewidth', wid);
 	end

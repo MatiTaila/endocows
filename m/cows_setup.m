@@ -53,7 +53,7 @@ for k=1:n_patients
 	patient.n_curves = [];
 	patient.path = [];
 	
-	segmented_info = dir([[opt.data_dir '/' opt.data_set], ['/*' num2str(patient.id) '*_0.mat']]);
+	segmented_info = dir([[opt.data_dir '/' opt.data_set], ['/*' num2str(patient.id) '*.mat']]);
 	for j=1:size(segmented_info,1) % for sobre las imagenes segmentadas
 		patient_info = dir([[opt.data_dir '/' opt.data_set], ['/*' num2str(patient.id) '*.png']]);
 		ind = 0;
@@ -78,9 +78,10 @@ function patient = addUserData2Database(patient, opt)
 for i = 1:length(patient.selected_pics)
 	logs = dir([[opt.data_dir '/' opt.data_set], ['/' patient.selected_pics{i} '*.mat']]);
 	aux.n_curves = 0;
+	aux.control_points = {};
 	for j = 1:size(logs,1)
 		data = load([opt.data_dir '/' opt.data_set '/' logs(j).name]);
-		if ~isempty(data.control_points)
+		if (~isempty(data.control_points) && data.n_curves )
 			if iscell(data.control_points)
 				for k=1:data.n_curves
 					aux.n_curves = aux.n_curves + 1;

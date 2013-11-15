@@ -137,9 +137,10 @@ end
 nextImageName = [ ud.ImagesPath dirinfo( ud.ImagesProcessed + 1 ).name ];
 gcf;
 im = imread( nextImageName );
+cla
 imshow( im )
 ud.currentImageName = nextImageName;
-set(findobj(gcf, 'tag','comments'), 'String','Comment:');
+set(findobj(gcf, 'tag','comment'), 'String','Comment:');
 fname = ud.dirinfo(ud.ImagesProcessed + 1).name;
 ud.text_handle = show_text(fname);
 ud.comment = '';
@@ -161,11 +162,12 @@ if ud.ImagesProcessed == -1
 	ud.ImagesProcessed = size(dirinfo,1)-1;
 end
 nextImageName = [ ud.ImagesPath dirinfo( ud.ImagesProcessed + 1 ).name ];
-gcf;
+gca;
 im = imread( nextImageName );
+cla
 imshow( im )
 ud.currentImageName = nextImageName;
-set(findobj(gcf, 'tag','comments'), 'String','Comment:');
+set(findobj(gcf, 'tag','comment'), 'String','Comment:');
 fname = ud.dirinfo(ud.ImagesProcessed + 1).name;
 ud.text_handle = show_text(fname);
 ud.comment = '';
@@ -212,7 +214,7 @@ function save_Callback(hObject, eventdata, handles)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
 ud = get(gcf,'UserData');
-ud.comment = get(findobj(gcf, 'tag','comments'), 'String');
+ud.comment = get(findobj(gcf, 'tag','comment'), 'String');
 set(gcf,'UserData',ud);
 fname = ud.currentImageName;
 count = 0;
