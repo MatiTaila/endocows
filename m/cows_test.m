@@ -105,21 +105,24 @@ if plotear >= 2
 	figure(50);
 	imshow(im);
 	hold on
-	plot(B3(:,2),B3(:,1), 'r')
-	plot(C3(1),C3(2), 'r+')
-	plot(B2(:,2),B2(:,1), 'g')
-	plot(C2(1),C2(2), 'g+')
-	plot(B1(:,2),B1(:,1), 'y')
-	plot(C1(1),C1(2), 'y+')
+% 	plot(B3(:,2),B3(:,1), 'r')
+% 	plot(C3(1),C3(2), 'r+')
+% 	plot(B2(:,2),B2(:,1), 'g')
+% 	plot(C2(1),C2(2), 'g+')
+% 	plot(B1(:,2),B1(:,1), 'y')
+% 	plot(C1(1),C1(2), 'y+')
+	plot(xs1,ys1,'r.-','linewidth',2)
+	plot(xs2,ys2,'r.-','linewidth',2)
+	plot(xs3,ys3,'r.-','linewidth',2)
 	
 	for i=1:plot_step:size(B1,1)
 		long_ind = IDX2(B1(i,1),B1(i,2));
 		ind = [long_ind-fix(long_ind/N)*N fix(long_ind/N)];
-		line([B1(i,2) ind(2)],[B1(i,1) ind(1)], 'color', colors{1})
+		line([B1(i,2) ind(2)],[B1(i,1) ind(1)], 'color', 'y')
 		
 		long_ind = IDX3(ind(1),ind(2));
 		ind_luz = [long_ind-fix(long_ind/N)*N fix(long_ind/N)];
-		line([ind(2) ind_luz(2)],[ind(1) ind_luz(1)], 'color', colors{1})
+		line([ind(2) ind_luz(2)],[ind(1) ind_luz(1)], 'color', 'y')
 	end
 	
 	figure(51);
@@ -128,7 +131,7 @@ if plotear >= 2
 	for i=1:plot_step:size(B1,1)
 		long_ind = IDX2(B1(i,1),B1(i,2));
 		ind = [long_ind-fix(long_ind/N)*N fix(long_ind/N)];
-		line([B1(i,2) ind(2)],[B1(i,1) ind(1)], 'color', colors{1})
+		line([B1(i,2) ind(2)],[B1(i,1) ind(1)], 'color', 'y')
 		
 		% 		keyboard
 		% 		l = [ind(1) ind(2);C3(1) C3(2)];
@@ -141,21 +144,24 @@ if plotear >= 2
 		% 		c = c(aux); d = d(aux);
 		% 		plot([a c], [b d], 'color', 'y')
 		
-		line([ind(2) C3(1)],[ind(1) C3(2)], 'color', colors{1})
+		line([ind(2) C3(1)],[ind(1) C3(2)], 'color','y')
 	end
-	plot(B3(:,2),B3(:,1), 'r', 'linewidth',2)
-	plot(C3(1),C3(2), 'r+')
-	plot(B2(:,2),B2(:,1), 'g')
-	plot(C2(1),C2(2), 'g+')
-	plot(B1(:,2),B1(:,1), 'y')
-	plot(C1(1),C1(2), 'y+')
+	plot(xs1,ys1,'r.-','linewidth',2)
+	plot(xs2,ys2,'r.-','linewidth',2)
+	plot(xs3,ys3,'r.-','linewidth',2)
+% 	plot(B3(:,2),B3(:,1), 'r', 'linewidth',2)
+% 	plot(C3(1),C3(2), 'r+')
+% 	plot(B2(:,2),B2(:,1), 'g')
+% 	plot(C2(1),C2(2), 'g+')
+% 	plot(B1(:,2),B1(:,1), 'y')
+% 	plot(C1(1),C1(2), 'y+')
 	
 	figure(52);
 	imshow(im);
 	hold on
-	plot(xs1,ys1,'r.-')
-	plot(xs2,ys2,'r.-')
-	plot(xs3,ys3,'r.-')
+	plot(xs1,ys1,'r.-','linewidth',2)
+	plot(xs2,ys2,'r.-','linewidth',2)
+	plot(xs3,ys3,'r.-','linewidth',2)
 	plot(level0_mio(1,:),level0_mio(2,:),'y.')
 	plot(level0_endo(1,:),level0_endo(2,:),'y.')
 	

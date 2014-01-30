@@ -21,7 +21,7 @@ luz = [xsLuz' ysLuz'];
 
 
 
-% luz = luz(1:end-1,:); % OJO ESTE ES UN FIX PARA ESTA IMAGEN QUE ESTA MAL SEGMENTADA
+luz = luz(1:end-1,:); % OJO ESTE ES UN FIX PARA ESTA IMAGEN QUE ESTA MAL SEGMENTADA
 
 
 
@@ -30,7 +30,7 @@ ax  = [min(luz(:,1))-1 max(luz(:,1))+1 min(luz(:,2))-1 max(luz(:,2))+1];
 
 
 
-luz=flipud(luz); % OJO ESTE ES UN FIX PARA ESTA IMAGEN QUE ESTA MAL SEGMENTADA
+% luz=flipud(luz); % OJO ESTE ES UN FIX PARA ESTA IMAGEN QUE ESTA MAL SEGMENTADA
 
 
 
@@ -74,15 +74,15 @@ while sum(evolve)>0
 % 	kappa = abs(kappa)/max(abs(kappa));
  	
 	% Paso en funcion de la distancia al Convex Hull
-	mask = roipoly(im,luz_orig(cHullInd,1),luz_orig(cHullInd,2));
-	[D, ~] = bwdist(mask);
-	for i=1:N
-		cHullDist(i) = D(round(luz(i,1)),round(luz(i,2)));
-	end
-	kappa = cHullDist/max(cHullDist+0.1)+0.1;
+% 	mask = roipoly(im,luz_orig(cHullInd,1),luz_orig(cHullInd,2));
+% 	[D, ~] = bwdist(mask);
+% 	for i=1:N
+% 		cHullDist(i) = D(round(luz(i,1)),round(luz(i,2)));
+% 	end
+% 	kappa = cHullDist/max(cHullDist+0.1)+0.1;
 	
 	% Paso fijo
-% 	kappa = eta*ones(N,1);
+	kappa = eta*ones(N,1);
 	
 	luzPrev = luz;
 	
@@ -236,23 +236,6 @@ if size(luz,1)<size(luz,2)
 end
 N = size(luz,1);
 d = [luz(1,1)-luz(N,1);diff(luz(:,1))].^2+[luz(1,2)-luz(N,2);diff(luz(:,2))].^2;
-end
-
-function list = intersectNormals(n)
-list = [];
-N    = size(n,1);
-for i=1:N
-	for j=i+1:N
-		p = intersectLines(n(i,:),n(j,:));
-		xMin = min([normals(i,1) normals(i,1)+normals(i,3)]);
-		xMax = max([normals(i,1) normals(i,1)+normals(i,3)]);
-		yMin = min([normals(i,2) normals(i,2)+normals(i,4)]);
-		yMax = max([normals(i,2) normals(i,2)+normals(i,4)]);
-		if p(1)>xMin && p(1)<xMax && p(2)>yMin && p(2)<yMax
-			list = [list; i j];
-		end
-	end
-end
 end
 
 % % Intentos de calculo de curvatura

@@ -1,5 +1,7 @@
 function cows_showPatientImages(p, images)
 
+DISPLAY_CURVES_WIDTH = 1;
+
 if nargin < 2
 	nImg = length(p.selected_pics);
 	images = 1:nImg;
@@ -23,8 +25,11 @@ fprintf('Patient: %d\n', p.id);
 
 for k=1:nImg
 	i = images(k);
+	
+	% Mostrar segmentacion
 	fig = figure(329+k);
-	set(fig, 'Position', [500+k*224,1200,224,384])
+	clf
+	set(fig, 'Position', [500+k*224,0,224,384])
 	imshow(imread([p.path '/' p.tambo '/' p.selected_pics{i}]));
 	hold on
 	for j=1:length(p.control_points{i})
@@ -34,4 +39,16 @@ for k=1:nImg
 	end
 	text(10, 350, {strrep(p.selected_pics{i},'_','\_')}, 'color', 'y', 'FontSize', 13);
 	hold off
+	
+	
+	% Mostrar anchos
+	if DISPLAY_CURVES_WIDTH
+		fig2 = figure(229+k);
+		clf
+		set(fig2, 'Position', [500+k*224,384,224,384])
+		cows_showEvolution(p,i);
+	end
+	
+	% foco
+	figure(329+k);
 end

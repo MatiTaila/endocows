@@ -1,23 +1,20 @@
-function colors = cows_colors()
+function colors = cows_colors(visualize)
 
-% global orange1; orange1 = [243, 132, 0]/256;
-% global silver1; silver1 = [166, 166, 166]/256;
-% global green1;  green1  = [154,205,50]/256;
-% global green2;  green2  = [34,139,34]/256;
-% global blue1;   blue1   = [0,0,128]/256;
-% global blue2;   blue2   = [0,0,255]/256;
-% global blue3;   blue3   = [100 149 237]/256;
-% global red1;    red1    = [255,0,0]/256;
-% global red2;    red2    = [178,34,34]/256;
-% global red3;    red3    = [165,136,105]/256;
+colors(1)={[243, 132, 0]/256};   % orange1
+colors(2)={[166, 166, 166]/256}; % silver1
+colors(3)={[154,205,50]/256};    % green1
+colors(4)={[34,139,34]/256};     % green2
+colors(5)={[0,0,128]/256};       % blue1
+colors(6)={[0,0,255]/256};       % blue2
+colors(7)={[100 149 237]/256};   % blue3
+colors(8)={[255,0,0]/256};       % red1
+colors(9)={[178,34,34]/256};     % red2
+colors(10)={[165,136,105]/256};  % red3
 
-colors(1)={[243, 132, 0]/256};
-colors(2)={[166, 166, 166]/256};
-colors(3)={[154,205,50]/256};
-colors(4)={[34,139,34]/256};
-colors(5)={[0,0,128]/256};
-colors(6)={[0,0,255]/256};
-colors(7)={[100 149 237]/256};
-colors(8)={[255,0,0]/256};
-colors(9)={[178,34,34]/256};
-colors(10)={[165,136,105]/256};
+if exist('visualize','var')
+	figure
+	for i=1:length(colors)
+		line([0 10],[i i ], 'linewidth', 20, 'color', colors{i});
+	end
+	axis([0 10 0 i+1])
+end

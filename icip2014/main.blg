@@ -1,0 +1,57 @@
+This is BibTeX, Version 0.99d (TeX Live 2012/Debian)
+Capacity: max_strings=35307, hash_size=35307, hash_prime=30011
+The top-level auxiliary file: main.aux
+The style file: IEEEbib.bst
+Database file #1: refs.bib
+I was expecting a `,' or a `}'---line 60 of file refs.bib
+ :     
+ :     pages     = "305-342"
+(Error may have been on previous line)
+I'm skipping whatever remains of this entry
+Warning--empty journal in sheldon2008
+Warning--empty journal in barlund2008
+Warning--empty journal in sheldon2010
+Warning--empty journal in Gianni2010
+Warning--empty journal in Gianni2013
+You've used 6 entries,
+            1838 wiz_defined-function locations,
+            490 strings with 4489 characters,
+and the built_in function-call counts, 1347 in all, are:
+= -- 106
+> -- 81
+< -- 1
++ -- 29
+- -- 23
+* -- 126
+:= -- 230
+add.period$ -- 6
+call.type$ -- 6
+change.case$ -- 5
+chr.to.int$ -- 0
+cite$ -- 11
+duplicate$ -- 48
+empty$ -- 118
+format.name$ -- 23
+if$ -- 278
+int.to.chr$ -- 0
+int.to.str$ -- 6
+missing$ -- 7
+newline$ -- 33
+num.names$ -- 6
+pop$ -- 23
+preamble$ -- 1
+purify$ -- 0
+quote$ -- 0
+skip$ -- 14
+stack$ -- 0
+substring$ -- 78
+swap$ -- 2
+text.length$ -- 1
+text.prefix$ -- 0
+top$ -- 0
+type$ -- 0
+warning$ -- 5
+while$ -- 12
+width$ -- 7
+write$ -- 61
+(There was 1 error message)
