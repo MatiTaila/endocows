@@ -14,18 +14,18 @@
 \title{Thickness profile measurement between closed curves}
 \name{Matías Tailanián, Federico Lecumberry}
 \address{Facultad de Ingenier\'ia, Universidad de la Rep\'ublica\\
-	 Julio Herrera y Reissig 565, Montevideo, Uruguay
+  Julio Herrera y Reissig 565, Montevideo, Uruguay
 }
 
 \begin{document}
 \maketitle
 
 \begin{abstract}
-In this paper the problem of defining and measuring a thickness profile between closed curves is presented. Based on the normal evolution of curves, we developed an algorithm which find the correspondence between points of different curves and measures the thickness profile. Ensuring in each step a good sampling of all curves by mechanisms of creating and deleting points, the algorithm splits the evolution in two parts, evolving from the convex hull of the interior curve to each one of the others. Synthetic and real results are shown and a particular application of classification using descriptors extracted from the thickness profile is presented. Finally we present the conclusions and future work.
+  In this paper the problem of defining and measuring a thickness profile between closed curves is presented. Based on the normal evolution of curves, we developed an algorithm which find the correspondence between points of different curves and measures the thickness profile. Ensuring in each step a good sampling of all curves by mechanisms of creating and deleting points, the algorithm splits the evolution in two parts, evolving from the convex hull of the interior curve to each one of the others. Synthetic and real results are shown and a particular application of classification using descriptors extracted from the thickness profile is presented. Finally we present the conclusions and future work.
 \end{abstract}
 
 \begin{keywords}
-Curves evolution, thickness, width, distance
+  Curves evolution, thickness, width, distance
 \end{keywords}
 
 \section{Introduction}
@@ -37,18 +37,18 @@ To compute the region width, the first question to ask is how to conceptually de
 The description of the particular problem considered and the proposal is presented in Section \ref{sec:proposal}. In Section \ref{sec:results} are presented synthetic and real results and a final application to diagnostic an uterine disease using descriptors extracted from the thickness profile. Finally, in Section \ref{sec:conc} we present some conclusions and future work.
 
 \begin{figure}[t]
-\begin{minipage}[b]{.45\linewidth}
-  \centering
-  \centerline{\includegraphics[width=3.8cm]{pics/defs2}}
-  \centerline{(a) Curves definition.}\medskip
-\end{minipage}\hfill
-\begin{minipage}[b]{.52\linewidth}
-  \centering
-  \centerline{\includegraphics[width=4.2cm]{pics/defsEndo}}
-  \centerline{(b) Application definition.}\medskip
-\end{minipage}
-\caption{Definitions.}
-\label{fig:defs}
+  \begin{minipage}[b]{.45\linewidth}
+    \centering
+    \centerline{\includegraphics[width=3.8cm]{pics/defs2}}
+    \centerline{(a) Curves definition.}\medskip
+  \end{minipage}\hfill
+  \begin{minipage}[b]{.52\linewidth}
+    \centering
+    \centerline{\includegraphics[width=4.2cm]{pics/defsEndo}}
+    \centerline{(b) Application definition.}\medskip
+  \end{minipage}
+  \caption{Definitions.}
+  \label{fig:defs}
 \end{figure}
 
 \section{Problem description and proposal}
@@ -58,26 +58,26 @@ The description of the particular problem considered and the proposal is present
 \label{ssec:description}
 In order to understand the particular application considered it is important to define some concepts. In the Figure \ref{fig:defs}b a transverse cut of cattle uterus is shown. We can imagine uterus as a tube with two coatings: Endometrium and Myometrium. The Myometrium is the region delimited by $\Gamma_1$ and $\Gamma_2$ and the Endometrium is the region delimited by $\Gamma_2$ and $\Gamma_3$. The problem is to measure the thickness of those two regions, using a manual segmentation of the regions made by the expert.
 \begin{figure*}[t]
-\begin{minipage}[b]{.32\linewidth}
-  \centering
-  \centerline{\includegraphics[width=5.8cm]{pics/cmp_dist}}
-  \centerline{(a) Distance function}\medskip
-\end{minipage}
-\hfill
-\begin{minipage}[b]{.32\linewidth}
-  \centering
-  \centerline{\includegraphics[width=5.8cm]{pics/cmp_norm}}
-  \centerline{(b) Normal to middle curve}\medskip
-\end{minipage}
-\hfill
-\begin{minipage}[b]{.32\linewidth}
-  \centering
-  \centerline{\includegraphics[width=5.8cm]{pics/cmp_evol}}
-  \centerline{(c) Proposed method}\medskip
-\end{minipage}
+  \begin{minipage}[b]{.32\linewidth}
+    \centering
+    \centerline{\includegraphics[width=5.8cm]{pics/cmp_dist}}
+    \centerline{(a) Distance function}\medskip
+  \end{minipage}
+  \hfill
+  \begin{minipage}[b]{.32\linewidth}
+    \centering
+    \centerline{\includegraphics[width=5.8cm]{pics/cmp_norm}}
+    \centerline{(b) Normal to middle curve}\medskip
+  \end{minipage}
+  \hfill
+  \begin{minipage}[b]{.32\linewidth}
+    \centering
+    \centerline{\includegraphics[width=5.8cm]{pics/cmp_evol}}
+    \centerline{(c) Proposed method}\medskip
+  \end{minipage}
 
-\caption{Comparison between different proposals.}
-\label{fig:comp}
+  \caption{Comparison between different proposals.}
+  \label{fig:comp}
 \end{figure*}
 While searching for a definition of the distance between two curves, euclidean distance comes to head. In this case, for each point of curve $\Gamma_i$ the nearest point of $\Gamma_j$ is found and the euclidean distance between this two points is used as thickness. As can be seen in Figure \ref{fig:comp}a, this thickness definition cannot capture the curves structure, deriving in a wrong profile. Another idea is to measure width in the normal direction of each point of the curve. Considering the normal to curve $\Gamma_2$, we cannot ensure that this direction will intersect $\Gamma_3$. With the purpose of obtaining a more regular curve and define the thickness in the normal direction of this new curve, we consider the skeleton of the region defined by $\Gamma_2$ and $\Gamma_3$, defined as the curve $\Gamma_{23}$ equidistant to both curves. The results of measuring the thickness in the normal direction of each point of $\Gamma_{23}$ are not as expected and in some directions the normals do not intersect curve $\Gamma_3$ (See Figure \ref{fig:comp}b). Finally, in Figure \ref{fig:comp}c is presented our proposed algorithm. In this case, the structure of the curves is effectively captured, obtaining a distance between curves that can be interpreted as thickness.
 
@@ -93,27 +93,27 @@ Our proposal is based on the simplest curves evolution: the normal evolution. Le
 
 Due to the nature of the curves described in Section \ref{sec:intro}, we propose to perform three separated evolutions, which in the final step are joined to obtain a single result. Apart from curves $\Gamma_i,\;\; i=1\dots3$, an auxiliary curve is considered: the convex hull of curve $\Gamma_3$ ($\Gamma_3^{CH}$), \cite{libro}. The three separated evolutions are:
 \begin{enumerate}
-  \item Evolution from $\Gamma_3^{CH}$ to $\Gamma_3$
-  \item Evolution from $\Gamma_3^{CH}$ to $\Gamma_2$
-  \item Evolution from $\Gamma_2$ to $\Gamma_1$
+\item Evolution from $\Gamma_3^{CH}$ to $\Gamma_3$
+\item Evolution from $\Gamma_3^{CH}$ to $\Gamma_2$
+\item Evolution from $\Gamma_2$ to $\Gamma_1$
 \end{enumerate}
 The final width, or distance between curves, is calculated as the distance of the path traveled by each point of the curve. The original curves are created with a cubic interpolation of a few points indicated by the expert and then re-sampled according to curvature, using more points in regions with higher curvature. The sampling of $\Gamma_3^{CH}$ is done by two different ways according to each point nature: points $p_i\in\Gamma_{3}$ that also belongs to $\Gamma_3^{CH}$ are directly used, and in regions where $\Gamma_3$ do not match $\Gamma_3^{CH}$, an uniform sampling is performed such that both curves have the same number of points.
 
 Sampling conditions are considered at each step to ensure a correct representation of the curve. For that purpose we developed a simple mechanism of creating and deleting points while evolving the curve. At the beginning of the evolution, the mean distance, $\delta$, between adjacent points is computed. The procedure of creating new points consists on evaluating at each evolution step $t$ if the distance between two adjacent points $p_i^t$ and $p_{i+1}^t$ is grater than $2\delta$. In this case, a new point, $p_k^t$, is created. $p_k^t$ is initialized with the mean of the distance traveled by points $p_i^t$ and $p_{i+1}^t$. See Figure \ref{fig:nacimiento_y_muerte}a. The procedure to delete points is based on the evaluation of a proximity condition. If $\eta\frac{\vec{n}_{p_i}}{||\vec{n}_{p_i}||}$ and $\eta\frac{\vec{n}_{p_i+1}}{||\vec{n}_{p_i+1}||}$ are intersected, points $p_i$ and $p_{i+1}$ will be joined into a new one. See Figure \ref{fig:nacimiento_y_muerte}b.
 \begin{figure}[t]
-\begin{minipage}[b]{.5\linewidth}
-  \centering
-  \centerline{\includegraphics[width=4.3cm]{pics/nacimiento}}
-  \centerline{(a) Creating new points}\medskip
-\end{minipage}
-\hfill
-\begin{minipage}[b]{.48\linewidth}
-  \centering
-  \centerline{\includegraphics[width=3.7cm]{pics/muerte}}
-  \centerline{(b) Deleting redundant points}\medskip
-\end{minipage}
-\caption{Synthetic results.}
-\label{fig:nacimiento_y_muerte}
+  \begin{minipage}[b]{.5\linewidth}
+    \centering
+    \centerline{\includegraphics[width=4.3cm]{pics/nacimiento}}
+    \centerline{(a) Creating new points}\medskip
+  \end{minipage}
+  \hfill
+  \begin{minipage}[b]{.48\linewidth}
+    \centering
+    \centerline{\includegraphics[width=3.7cm]{pics/muerte}}
+    \centerline{(b) Deleting redundant points}\medskip
+  \end{minipage}
+  \caption{Synthetic results.}
+  \label{fig:nacimiento_y_muerte}
 \end{figure}
 If the curvature of curve $\Gamma_2$ is very high, the procedure should change a little, considering the convex hull of $\Gamma_2$ and perfoming the same procedure as the described for $\Gamma_3$.
 % tengo que decir como se mide la normal: con un vecino de cada lado.
@@ -125,18 +125,18 @@ If the curvature of curve $\Gamma_2$ is very high, the procedure should change a
 \label{ssec:syn}
 In order to evaluate the algorithm performance, a synthetic example is presented. This example was designed considering $\Gamma_i$, $i=1\dots3$ as three concentric circles and adding a perturbation in $\Gamma_2$. This perturbation is introduced by adding in the normal direction of each point of the curve a Gaussian distribution $X \sim \mathcal{N}(0,1)$ centered in points with null phase. In the point where $X$ is maximal (null phase), the width of the region delimited by $\Gamma_1$ and $\Gamma_2$ is equal to the width of the region delimited by $\Gamma_2$ and $\Gamma_3$. The results are shown in Figure \ref{fig:synth}. In Figure \ref{fig:synth}.a is shown the trajectory of the points while evolving. The trajectory of the original points is represented in blue color, while the trajectory of points created during evolution is represented in orange color. In figure \ref{fig:synth}.b is shown the thickness profile obtained. As can be seen, the results are as expected. Region between $\Gamma_1$ and $\Gamma_2$ presents a decay in width while the region between $\Gamma_2$ and $\Gamma_3$ shows an increase. For the points with null phase the widths are equal.
 \begin{figure}[t]
-\begin{minipage}[b]{1\linewidth}
-  \centering
-  \centerline{\includegraphics[width=5.5cm]{pics/synth}}
-  \centerline{(a) Evolution}\medskip
-\end{minipage}
-\begin{minipage}[b]{1\linewidth}
-  \centering
-  \centerline{\includegraphics[width=9cm]{pics/synthWidth}}
-  \centerline{(b) Widths}\medskip
-\end{minipage}
-\caption{Synthetic results.}
-\label{fig:synth}
+  \begin{minipage}[b]{1\linewidth}
+    \centering
+    \centerline{\includegraphics[width=5.5cm]{pics/synth}}
+    \centerline{(a) Evolution}\medskip
+  \end{minipage}
+  \begin{minipage}[b]{1\linewidth}
+    \centering
+    \centerline{\includegraphics[width=9cm]{pics/synthWidth}}
+    \centerline{(b) Widths}\medskip
+  \end{minipage}
+  \caption{Synthetic results.}
+  \label{fig:synth}
 \end{figure}
 
 \subsection{Real}
@@ -148,43 +148,43 @@ In this section we present results obtained in real ultrasonography images. The 
 The algorithm was applied to a database tagged by the expert, knowing which cows has sub-clinical endometritis. In a preliminary study of the problem the thickness obtained for each image was used to obtain some descriptors in order to perform an automatic supervised classification of cattle with or without endometritis. Although the results are preliminary, seems to be very promissory. With the descriptors used, we were able to detect 88\% of infected cows. \textcolor{red}{habria que explicar mejor todo esto?}. This results are showing that descriptors obtained from the thickness profile, which could not be extracted using other measures such as euclidean distance, can play an important role in detecting sub-clinical endometritis.
 
 \begin{figure*}[t]
-\begin{minipage}[b]{.33\linewidth}
-  \centering
-  \centerline{\includegraphics[width=6.5cm]{pics/real}}
-  \centerline{(a) Evolution}\medskip
-\end{minipage}
-\hfill
-\begin{minipage}[b]{.33\linewidth}
-  \centering
-  \centerline{\includegraphics[width=6.5cm]{pics/real4}}
-  \centerline{(c) Evolution}\medskip
-\end{minipage}
-\hfill
-\begin{minipage}[b]{.33\linewidth}
-  \centering
-  \centerline{\includegraphics[width=6.5cm]{pics/real3}}
-  \centerline{(e) Evolution}\medskip
-\end{minipage}
-\hfill
-\begin{minipage}[b]{.33\linewidth}
-  \centering
-  \centerline{\includegraphics[width=6.5cm]{pics/realWidth}}
-  \centerline{(b) Evolution}\medskip
-\end{minipage}
-\hfill
-\begin{minipage}[b]{.33\linewidth}
-  \centering
-  \centerline{\includegraphics[width=6.5cm]{pics/realWidth4}}
-  \centerline{(d) Evolution}\medskip
-\end{minipage}
-\hfill
-\begin{minipage}[b]{.33\linewidth}
-  \centering
-  \centerline{\includegraphics[width=6.5cm]{pics/realWidth3}}
-  \centerline{(f) Evolution}\medskip
-\end{minipage}
-\caption{Real results.}
-\label{fig:real}
+  \begin{minipage}[b]{.33\linewidth}
+    \centering
+    \centerline{\includegraphics[width=6.5cm]{pics/real}}
+    \centerline{(a) Evolution}\medskip
+  \end{minipage}
+  \hfill
+  \begin{minipage}[b]{.33\linewidth}
+    \centering
+    \centerline{\includegraphics[width=6.5cm]{pics/real4}}
+    \centerline{(c) Evolution}\medskip
+  \end{minipage}
+  \hfill
+  \begin{minipage}[b]{.33\linewidth}
+    \centering
+    \centerline{\includegraphics[width=6.5cm]{pics/real3}}
+    \centerline{(e) Evolution}\medskip
+  \end{minipage}
+  \hfill
+  \begin{minipage}[b]{.33\linewidth}
+    \centering
+    \centerline{\includegraphics[width=6.5cm]{pics/realWidth}}
+    \centerline{(b) Evolution}\medskip
+  \end{minipage}
+  \hfill
+  \begin{minipage}[b]{.33\linewidth}
+    \centering
+    \centerline{\includegraphics[width=6.5cm]{pics/realWidth4}}
+    \centerline{(d) Evolution}\medskip
+  \end{minipage}
+  \hfill
+  \begin{minipage}[b]{.33\linewidth}
+    \centering
+    \centerline{\includegraphics[width=6.5cm]{pics/realWidth3}}
+    \centerline{(f) Evolution}\medskip
+  \end{minipage}
+  \caption{Real results.}
+  \label{fig:real}
 \end{figure*}
 
 
@@ -206,8 +206,8 @@ As future work we plan to explore in extracting better descriptors from the thic
 % To start a new column (but not a new page) and help balance the last-page
 % column length use \vfill\pagebreak.
 % -------------------------------------------------------------------------
-%\vfill
-%\pagebreak
+% \vfill
+% \pagebreak
 
 % Below is an example of how to insert images. Delete the ``\vspace'' line,
 % uncomment the preceding line ``\centerline...'' and replace ``imageX.ps''
@@ -215,28 +215,28 @@ As future work we plan to explore in extracting better descriptors from the thic
 % -------------------------------------------------------------------------
 \begin{figure}[t]
 
-\begin{minipage}[b]{1.0\linewidth}
-  \centering
-  \centerline{\includegraphics[width=8.5cm]{pics/image1}}
-%  \vspace{2.0cm}
-  \centerline{(a) Result 1}\medskip
-\end{minipage}
-%
-\begin{minipage}[b]{.48\linewidth}
-  \centering
-  \centerline{\includegraphics[width=4.0cm]{pics/image3}}
-%  \vspace{1.5cm}
-  \centerline{(b) Results 3}\medskip
-\end{minipage}
-\hfill
-\begin{minipage}[b]{0.48\linewidth}
-  \centering
-  \centerline{\includegraphics[width=4.0cm]{pics/image4}}
-%  \vspace{1.5cm}
-  \centerline{(c) Result 4}\medskip
-\end{minipage}
-%
-\caption{Example of placing a figure with experimental results.}
-\label{fig:res}
-%
+  \begin{minipage}[b]{1.0\linewidth}
+    \centering
+    \centerline{\includegraphics[width=8.5cm]{pics/image1}}
+    % \vspace{2.0cm}
+    \centerline{(a) Result 1}\medskip
+  \end{minipage}
+  % 
+  \begin{minipage}[b]{.48\linewidth}
+    \centering
+    \centerline{\includegraphics[width=4.0cm]{pics/image3}}
+    % \vspace{1.5cm}
+    \centerline{(b) Results 3}\medskip
+  \end{minipage}
+  \hfill
+  \begin{minipage}[b]{0.48\linewidth}
+    \centering
+    \centerline{\includegraphics[width=4.0cm]{pics/image4}}
+    % \vspace{1.5cm}
+    \centerline{(c) Result 4}\medskip
+  \end{minipage}
+  % 
+  \caption{Example of placing a figure with experimental results.}
+  \label{fig:res}
+  % 
 \end{figure}

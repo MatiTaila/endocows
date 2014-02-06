@@ -1,9 +1,35 @@
-\begin{thebibliography}{1}
+\begin{thebibliography}{10}
+
+\bibitem{libroMorel}
+J.-M. Morel and S.~Solimini,
+\newblock {\em Variational Methods in Image Segmentation},
+\newblock Birkhauser Boston Inc., Cambridge, MA, USA, 1995.
+
+\bibitem{statistics}
+G.~Charpiat, O.~Faugeras, R.~Keriven, and P.~Maurel,
+\newblock ``Distance-based shape statistics,''
+\newblock in {\em In Acoustics, Speech and Signal Processing, 2006 (ICASSP
+  2006}, 2006.
+
+\bibitem{paperWarping}
+D.~Meier and E.~Fisher,
+\newblock ``Parameter space warping: shape-based correspondence between
+  morphologically different objects,''
+\newblock {\em Medical Imaging, IEEE Transactions on}, vol. 21, no. 1, pp.
+  31--47, Jan 2002.
 
 \bibitem{libro}
 J.~Gomes, L.~Darsa, B.~Costa, and L.~Velho,
 \newblock {\em Warping and Morphing of Graphical Objects}, vol.~1,
 \newblock Morgan Kaufmann, 1998.
+
+\bibitem{gac}
+V.~Caselles, R.~Kimmel, and G.~Sapiro,
+\newblock ``Geodesic active contours,'' 1997.
+
+\bibitem{chan-vese}
+T.~F. Chan and L.~A. Vese,
+\newblock ``Active contours without edges,'' 2001.
 
 \bibitem{sheldon2008}
 I.M. Sheldon, E.J. Williams, A.N.A. Miller, D.M. Nash, and S.~Herath,
