@@ -7,7 +7,7 @@ home
 opt.log			 = 1;
 opt.figNum		 = 15;
 opt.plot	     = 1;
-opt.visualize    = 0;
+opt.visualize    = 1;
 opt.fusion_type  = 2;
 evolveToInterior = 1;
 colors		     = cows_colors();
@@ -50,13 +50,41 @@ x = -5:10/nPts:5;
 y = f(x, 0, 1); y = y/max(y);
 y = y*nIm*.05;
 tunicaPrev = tunica;
+luzPrev = luz;
 for i=1:length(y)
 	left = i-1; if left==0, left = N; end
 	right = i+1;if right>N, right = 1; end	
 	n = [-(tunicaPrev(right,2)-tunicaPrev(left,2)), tunicaPrev(right,1)-tunicaPrev(left,1)];
 	n = n/norm(n);
 	tunica(i,:) = tunica(i,:)+y(i)*n;
+	
+	j = nPts+i; if j>N, j=1; end
+	left = j-1; if left==0, left = N; end
+	right = j+1;if right>N, right = 1; end	
+	n = [-(luzPrev(right,2)-luzPrev(left,2)), luzPrev(right,1)-luzPrev(left,1)];
+	n = n/norm(n);
+	luz(j,:) = luz(j,:) - 2 * y(i) * n;
 end
+
+% %% DEBUG CURVES
+% c1 = wall;
+% c2 = tunica;
+% c3 = luz;
+% ax = [min(c1(:,1))-1 max(c1(:,1))+1 min(c1(:,2))-1 max(c1(:,2))+1];
+% 
+% if opt.plot >= 1
+% 	figure(opt.figNum+3);
+% 		imshow(ones(size(im)))
+% 		axis(ax)
+% 		hold on
+% 		plot(c1(:,1),c1(:,2),'.-', 'color','k')
+% 		plot(c2(:,1),c2(:,2),'.-', 'color','k')
+% 		plot(c3(:,1),c3(:,2),'.-', 'color','k')
+% % 		for i=1:size(luz,1)
+% % 			text(luz(i,1),luz(i,2),num2str(i),'color','r')
+% % 		end
+% end
+% break
 
 opt.ax = [min(luz(:,1))-1 max(luz(:,1))+1 min(luz(:,2))-1 max(luz(:,2))+1];
 
@@ -79,18 +107,20 @@ for k=1:size(cHullInd,1)
 	i = cHullInd(k);
 	if k~=size(cHullInd,1)
 		j = cHullInd(k+1);
-		paso = (luz(j,1)-luz(i,1))/(j-i);
+		paso = (luz(j,2)-luz(i,2))/(j-i);
 	else
 		j = cHullInd(1);
-		paso = (luz(j,1)-luz(i,1))/(size(luz,1)+j-i);
+		paso = (luz(j,2)-luz(i,2))/(size(luz,1)+j-i);
 	end
-	pts = luz(i,1)+paso:paso:luz(j,1)+sign(paso)*eps;
+	pts = luz(i,2)+paso:paso:luz(j,2)+sign(paso)*eps;
 	if isempty(pts)
 		keyboard
+% 		pts = luz(j,1)*ones(1,j-i-1);
 	end
-	f = @(x)(luz(j,2)-luz(i,2))/(luz(j,1)-luz(i,1))*(x-luz(i,1)) + luz(i,2);
-	x = [x pts];
-	y = [y f(pts)];
+% 	f = @(x)luz(j,1)*ones(1,j-i-1);
+	f = @(x)(luz(j,1)-luz(i,1))/(luz(j,2)-luz(i,2))*(x-luz(i,2)) + luz(i,1);
+	x = [x f(pts)];
+	y = [y pts];
 	if opt.plot >= 2
 		figure(opt.figNum+1);
 		plot(pts,f(pts),'*','color',colors{mod(i,size(colors,2))+1}, 'markersize',10)
@@ -209,17 +239,18 @@ if opt.plot >= 1
 		end
 % 		plot(data_final(1,1,1),data_final(2,1,1),'*b')
 % 		plot(data_final(1,1,2),data_final(2,1,2),'*r')
-		title('\fontsize{16}Evolucion')
-		fill([80 80 105 105]-1,[80 102+8 102+8 80]-15,'w')
-		text(80,80,'\fontsize{40}\Gamma_1')
-		fill([140 140 166 166]-1,[140 162+8 162+8 140]-15,'w')
-		text(140,140,'\fontsize{40}\Gamma_2')
-		fill([170 170 196 196]-1,[170 192+8 192+8 170]-15,'w')
-		text(170,170,'\fontsize{40}\Gamma_3')
-		fill([148 148 258 258]-1,[252 272+8 272+8 252]-15,'w')
-		text(148,252,'\fontsize{30}Endometrium')
-		fill([148 148 258 258]-1,[252 272+8 272+8 252]-15+58,'w')
-		text(152,310,'\fontsize{30}Myometrium')
+
+% 		title('\fontsize{16}Evolucion')
+% 		fill([80 80 105 105]-1,[80 102+8 102+8 80]-15,'w')
+% 		text(80,80,'\fontsize{40}\Gamma_1')
+% 		fill([140 140 166 166]-1,[140 162+8 162+8 140]-15,'w')
+% 		text(140,140,'\fontsize{40}\Gamma_2')
+% 		fill([170 170 196 196]-1,[170 192+8 192+8 170]-15,'w')
+% 		text(170,170,'\fontsize{40}\Gamma_3')
+% 		fill([148 148 258 258]-1,[252 272+8 272+8 252]-15,'w')
+% 		text(148,252,'\fontsize{30}Endometrium')
+% 		fill([148 148 258 258]-1,[252 272+8 272+8 252]-15+58,'w')
+% 		text(152,310,'\fontsize{30}Myometrium')
 		
 	figure(opt.figNum+4);
 		hold off
@@ -249,14 +280,14 @@ if opt.plot >= 1
 		hold on, grid on
 		[~,ind]=min(ang);
 		plot(circshift(ang,-ind+1),circshift(endoWidth,-ind+1),'.-','linewidth',2.2,'color',colors{1},'markersize',10)
-		legend('\fontsize{16}Myometrium', '\fontsize{16}Endometrium','location','east')
+		legend('\fontsize{16}Region between \Gamma_1 and \Gamma_2', '\fontsize{16}Region between \Gamma_2 and \Gamma_3','location','east')
 		axis([-pi pi 35 85])
 		xlabel('\fontsize{16}Phase [Rad]')
 		ylabel('\fontsize{16}Thickness')
 end
 
 %% COMPARACION
-break
+
 %% --------- Algoritmo de evolucion ---------
 load('cows_cfg');
 patient = patients(end);
@@ -444,4 +475,4 @@ figure(52);
 		end
 	end
 	
-	plot(level0_endo(1,:),level0_endo(2,:),'.-','color',colors{3})
+	plot(level0_endo(1,:),level0_endo(2,:),'*-','color',colors{3},'linewidth',3)

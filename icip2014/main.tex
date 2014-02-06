@@ -121,16 +121,16 @@ Sampling conditions are considered at each step to ensure a correct representati
 
 \subsection{Synthetic}
 \label{ssec:syn}
-In order to show the algorithm performance, a synthetic example is presented. This example was designed considering $\Gamma_i$, $i=1\dots3$ as three concentric circles and adding a perturbation in $\Gamma_2$. This perturbation is introduced by adding in the normal direction of each point of the curve a Gaussian distribution $X \sim \mathcal{N}(0,1)$ centered in points with null phase. In the point where $X$ is maximal (null phase), the width of the region delimited by $\Gamma_1$ and $\Gamma_2$ is equal to the width of the region delimited by $\Gamma_2$ and $\Gamma_3$. The results are shown in Figure \ref{fig:synth}. Figure \ref{fig:synth}a shows the trajectory of the points while evolving. The trajectory of the original points is represented in blue color, while the trajectory of points created during evolution is represented in orange color. Figure \ref{fig:synth}b shows the thickness profile obtained relative to the angle measured from the center of the circles. As can be seen, the results are as expected. Region between $\Gamma_1$ and $\Gamma_2$ presents a decay in width while the region between $\Gamma_2$ and $\Gamma_3$ shows an increase. For the points with null phase the widths are equal.
+In order to show the algorithm performance, a synthetic example is presented. This example was designed considering $\Gamma_i$, $i=1\dots3$ as three concentric circles and adding a perturbation in $\Gamma_2$ and $\Gamma_3$. This perturbation is introduced by adding in the normal direction of each point of the curve a Gaussian distribution $X \sim \mathcal{N}(0,1)$ centered in points with null phase for $\Gamma_2$ and centered in the points with maximum (absolute) phase for $\Gamma_3$. In the point where $X$ is maximal, the width of the region delimited by $\Gamma_1$ and $\Gamma_2$ is equal to the width of the region delimited by $\Gamma_2$ and $\Gamma_3$. The results are shown in Figure \ref{fig:synth}. Figure \ref{fig:synth}a shows the trajectory of the points while evolving. The trajectory of the original points is represented in blue color, while the trajectory of points created during evolution is represented in orange color. Figure \ref{fig:synth}b shows the thickness profile obtained relative to the angle measured from the center of the circles. As can be seen, the results are as expected. Near points with null phase, region between $\Gamma_1$ and $\Gamma_2$ presents a thickness decay while the region between $\Gamma_2$ and $\Gamma_3$ shows an increase. For the points with null phase the widths are equal. Near points with maximal phase the thickness of the region between $\Gamma_2$ and $\Gamma_3$ increases, as expected.
 \begin{figure}[t]
 \begin{minipage}[b]{1\linewidth}
   \centering
-  \centerline{\includegraphics[width=5cm]{pics/synth}}
+  \centerline{\includegraphics[width=5cm]{pics/synth3}}
   \centerline{(a)}\medskip
 \end{minipage}
 \begin{minipage}[b]{1\linewidth}
   \centering
-  \centerline{\includegraphics[width=8.3cm]{pics/synthWidth}}
+  \centerline{\includegraphics[width=8.5cm]{pics/synthWidth3}}
   \centerline{(b)}\medskip
 \end{minipage}
 \caption{Results using synthetic curves. (a) Path traveled by points during the evolution. The blue lines corresponds to the evolution of the original points, while orange lines corresponds to created points. (b) Thickness profile relative to the angle measured from the center of the circles. In blue is shown the thickness of region between $\Gamma_1$ and $\Gamma_2$, and in orange between $\Gamma_2$ and $\Gamma_3$.}
@@ -142,10 +142,6 @@ In order to show the algorithm performance, a synthetic example is presented. Th
 Postpartum uterine diseases, such as endometrium damage and ovarian cyclic activity disruption, has become one of the most important causes of reproductive inefficiency in dairy cattle and are associated with infertility \cite{sheldon2008,barlund2008}. Endometritis is an uterine disease defined as inflammation limited to the endometrium occurring at least 21 days after calving and not associated with systemic illness \cite{sheldon2010}. This disease do not always presents clinical symptoms, so sub-clinical Endometritis detection using ultrasonography images is used \cite{Gianni2010, Gianni2013}. The sub-clinical endometritis diagnostic is very difficult, even for an expert, so image processing techniques to aid veterinaries in diagnostics get special relevance.
 
 In this section we present results obtained in real ultrasonography images. The curves were manually segmented by the expert and our algorithm applied to obtain the thickness profile. Results are shown in Figure \ref{fig:real} for three real examples.
-
-\subsection{Feature extraction and classification}
-\label{ssec:clasification}
-The algorithm was applied to a database tagged by the expert, knowing which cows has sub-clinical endometritis. In a preliminary study of the problem the thickness obtained for each image was used to obtain some descriptors in order to perform an automatic supervised classification of cattle with or without endometritis. Although the results are preliminary, seems to be very promissory. With the descriptors used, we were able to detect 88\% of infected cows. \textcolor{red}{habria que explicar mejor todo esto?}. This results are showing that descriptors obtained from the thickness profile, which could not be extracted using other measures such as euclidean distance, can play an important role in detecting sub-clinical endometritis.
 
 \begin{figure*}[t]
 \begin{minipage}[b]{.33\linewidth}
@@ -183,10 +179,15 @@ The algorithm was applied to a database tagged by the expert, knowing which cows
   \centerline{\includegraphics[width=6.5cm]{pics/realWidth3}}
   \centerline{(f) Evolution}\medskip
 \end{minipage}
-\caption{Real results.}
+\caption{Real results. Images shows three different real situations. In (a), (c) and (e) is shown the path traveled by points of curves during the evolution, and in (b), (d) and (f) their respective thickness profiles obtained. The blue line corresponds to the thickness between $\Gamma_1$ and $\Gamma_2$, and the orange line corresponds to the thickness between $\Gamma_2$ and $\Gamma_3$.}
 \label{fig:real}
 \end{figure*}
 
+\subsection{Feature extraction and classification}
+\label{ssec:clasification}
+The algorithm was applied to a database tagged by the expert, knowing which cows has sub-clinical endometritis. In a preliminary study of the problem the thickness obtained for each image was used to obtain some descriptors in order to perform an automatic supervised classification in two classes: cattle with or without endometritis. The extracted features try to simulate what the expert analyzes to diagnose: relation between areas of endometrium and myometrium, maximum thickness of both regions normalized by the areas, etc.
+
+Performing a feature selection using a wrapper method and a classification with multilayer perceptron we obtained results that, although preliminary, seems to be very promissory. We were able to correctly classify 91.67\% of instances, with a recall of 91.7\% and a precision of 92.9\%. This results are showing that the features obtained from the thickness profile, which could not be extracted using other measures such as euclidean distance, can play an important role in detecting sub-clinical endometritis.
 
 \section{Conclusion}
 \label{sec:conc}
