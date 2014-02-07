@@ -11,7 +11,8 @@
 
 % Title.
 % ------
-\title{Thickness profile measurement between closed curves}
+\title{Measuring Thickness profile between closed curves applied to
+  endometritis detection in cattle}
 
 % \name{Mat\'ias Tailani\'an, Federico Lecumberry, Alicia Fern\'andez, Gregory Randall, }
 % \address{Facultad de Ingenier\'ia, Universidad de la Rep\'ublica\\
@@ -60,14 +61,6 @@ In this work we explore this possibility developing a system to measure this fea
 \end{figure}
 
 The description of the particular problem considered and the proposal are presented in Section \ref{sec:proposal}. In Section \ref{sec:results} are presented synthetic and real results and a final application to diagnostic an uterine disease using descriptors extracted from the thickness profile. Finally, in Section \ref{sec:conc} we present some conclusions and future work.
-
-
-\section{Problem description and proposal}
-\label{sec:proposal}
-
-\subsection{Problem description}
-\label{ssec:description}
-In order to understand the particular application considered it is important to define some concepts. In Figure \ref{fig:defs}b a transverse cut of cattle uterine horn is shown. We can imagine the uterine horn as a tube with two coatings: Endometrium and Myometrium. The Myometrium is the region delimited by $\Gamma_1$ and $\Gamma_2$ and the Endometrium is the region delimited by $\Gamma_2$ and $\Gamma_3$. The problem is to measure the thickness of those two regions, using a manual segmentation of the regions.
 \begin{figure*}[t]
 \begin{minipage}[b]{.32\linewidth}
   \centering
@@ -89,6 +82,14 @@ In order to understand the particular application considered it is important to 
 \caption{Comparison between different proposals. (a) Distance function from the points in the outer curve to the inner curve. (b) Defining the middle curve as the curve equidistant to both curves, the thickness is measured as the length of the normal to the middle curve. (c) Proposal: the blue lines represent the path traveled by the original points during evolution, and the orange lines corresponds to points created during evolution, see Section \ref{sec:proposal}.}
 \label{fig:comp}
 \end{figure*}
+
+
+\section{Problem description and proposal}
+\label{sec:proposal}
+
+\subsection{Problem description}
+\label{ssec:description}
+In order to understand the particular application considered it is important to define some concepts. In Figure \ref{fig:defs}b a transverse cut of cattle uterine horn is shown. We can imagine the uterine horn as a tube with two coatings: Endometrium and Myometrium. The Myometrium is the region delimited by $\Gamma_1$ and $\Gamma_2$ and the Endometrium is the region delimited by $\Gamma_2$ and $\Gamma_3$. The problem is to measure the thickness of those two regions, using a manual segmentation of the regions.
 While searching for a definition of the distance between two curves, euclidean distance comes to head. In this case, for each point of curve $\Gamma_i$ the nearest point of $\Gamma_j$ is found and the euclidean distance between this two points is used as thickness. As can be seen in Figure \ref{fig:comp}a, this thickness definition cannot capture the curves ``structure'', deriving in a wrong profile. Another idea is to measure width in the normal direction of each point of the curve. Considering the normal to curve $\Gamma_2$, we cannot ensure that this direction will intersect $\Gamma_3$. With the purpose of obtaining a more regular curve and define the thickness in the normal direction of this new curve, we consider the skeleton of the region defined by $\Gamma_2$ and $\Gamma_3$, defined as the curve $\Gamma_{23}$ equidistant to both curves. The results of measuring the thickness in the normal direction of each point of $\Gamma_{23}$ are not as expected and in some directions the normals do not intersect curve $\Gamma_3$ (See Figure \ref{fig:comp}b). Finally, in Figure \ref{fig:comp}c is presented our proposed algorithm. In this case, the ``structure'' of the curves are effectively captured, obtaining a distance between curves that can be interpreted as thickness.
 
 Another possibility is to create synthetic images from the given curves in order to use other methods like GAC \cite{gac} o Chan-Vese \cite{chan-vese}, that uses image data to perform the evolution. However, this methods introduce other terms representing for example the curve regularity or area measures that are not linked to the original problem and may hinder the real problem of measuring a region thickness. 
@@ -209,10 +210,9 @@ The algorithm was applied to a particular problem, where the goal is to measure 
 As future work we plan to explore in extracting better descriptors from the thickness profile and obtain other descriptors from the ultrasonographic images, such as texture or shape descriptors, in order to obtain a more accurate classification. Also we plan to enlarge the database.
 
 \section{Acknowledgments}
-Research and Innovation National Agency (ANII)\\
-Ana Meikle\\
-Isabel Pereira\\
-Departamento de procesamiento de seniales?
+The author would like to thank Dra.~Ana Meikle, PhD. and Dra.~Isabel
+Pereira for their suggestions and fruitful discussions. This work was
+partially funded by project ANII FMV~2\_2011\_1\_7376.
 
 \bibliographystyle{IEEEbib}
 \bibliography{refs}
