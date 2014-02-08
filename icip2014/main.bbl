@@ -1,5 +1,10 @@
 \begin{thebibliography}{10}
 
+\bibitem{Gianni2010}
+G.~Gnemmi and C.~Maraboli,
+\newblock ``{Endometrite subclinica nel bovino da latte.},''
+\newblock Aug. 2010.
+
 \bibitem{libroMorel}
 J.-M. Morel and S.~Solimini,
 \newblock {\em Variational Methods in Image Segmentation},
@@ -47,11 +52,6 @@ I.M. Sheldon, J.~Cronin, L.~Goetze, G.~Donofrio, and H.J. Schuberth,
 \newblock ``{Defining Postpartum Uterine Disease and the Mechanisms of
   Infection and Immunity in the Female Reproductive Tract in Cattle},''
 \newblock vol. 81, no. 6, pp. 1025--1032, 2010.
-
-\bibitem{Gianni2010}
-G.~Gnemmi and C.~Maraboli,
-\newblock ``{Endometrite subclinica nel bovino da latte.},''
-\newblock Aug. 2010.
 
 \bibitem{Gianni2013}
 G.~Gnemmi, E.~Ferrari, and C.~Maraboli,
