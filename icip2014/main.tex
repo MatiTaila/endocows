@@ -156,19 +156,19 @@ In this section we present results obtained in real ultrasonography images. The 
 \begin{figure*}[t]
 \begin{minipage}[b]{.26\linewidth}
   \centering
-  \centerline{\includegraphics[width=6.25cm]{pics/real}}
+  \centerline{\includegraphics[width=6.25cm]{pics/rreal}}
   \centerline{(a)}\medskip
 \end{minipage}
 \hfill
 \begin{minipage}[b]{.33\linewidth}
   \centering
-  \centerline{\includegraphics[width=5.5cm]{pics/real4}}
+  \centerline{\includegraphics[width=5.5cm]{pics/rreal4}}
   \centerline{(c)}\medskip
 \end{minipage}
 \hfill
 \begin{minipage}[b]{.33\linewidth}
   \centering
-  \centerline{\includegraphics[width=6.2cm]{pics/real3}}
+  \centerline{\includegraphics[width=6.2cm]{pics/rreal3}}
   \centerline{(e)}\medskip
 \end{minipage}
 \hfill
@@ -195,7 +195,7 @@ In this section we present results obtained in real ultrasonography images. The 
 
 \subsection{Feature extraction and classification}
 \label{ssec:clasification}
-The algorithm was applied to a database tagged by the expert, knowing which cows has sub-clinical endometritis. In a preliminary study of the problem the thickness profile obtained for each image was used to obtain some descriptors in order to perform an automatic supervised classification in two classes: cattle with or without endometritis. The extracted features try to simulate what the expert analyzes to diagnose: relation between areas of endometrium and myometrium, maximum thickness of both regions normalized by the areas, etc.
+The algorithm was applied to a database tagged by the expert, knowing which cows has sub-clinical endometritis. In a preliminary study of the problem the thickness profile obtained for each image was used to obtain some descriptors in order to perform an automatic supervised classification in two classes: cattle with or without endometritis. The extracted features try to simulate what the expert analyzes to diagnose: maximum thickness of endometrium normalized by endometrium area and maximum thickness of myometrium with and without the area normalization.
 
 Performing a feature selection using a wrapper method and a classification with multilayer perceptron we obtained results that, although preliminary, seems to be very promissory. We were able to correctly classify 91.67\% of instances, with a recall of 91.7\% and a precision of 92.9\%. This results are showing that the features obtained from the thickness profile, which could not be extracted using other measures such as euclidean distance, can play an important role in detecting sub-clinical endometritis.
 
