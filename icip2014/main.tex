@@ -4,7 +4,7 @@
 \usepackage{color}
 \usepackage{balance}
 \linespread{1}
-% dblfloatfix
+\usepackage{dblfloatfix}
 
 \def\x{{\mathbf x}}
 \def\L{{\cal L}}
@@ -30,24 +30,16 @@
 \maketitle
 
 \begin{abstract}
-In this paper the problem of defining and measuring a thickness profile between closed curves is presented. Based on the normal evolution of curves, we developed an algorithm that defines the correspondence between points of different curves and measures the thickness profile. Ensuring in each step a good sampling of all curves by mechanisms of creating and combining points, the algorithm splits the evolution in two parts, evolving from the convex hull of the interior curve to each one of the others. Synthetic and real results are shown and a particular application of classification using descriptors extracted from the thickness profile is presented.
+In this paper we address the problem of defining and measuring a thickness profile between closed curves that do not intersect and one is interior to the other. Based on the normal evolution of curves, we developed an algorithm that defines the correspondence between points of different curves and measures the thickness profile. Ensuring in each step a good sampling of all curves by of creating and combining points, the algorithm splits the evolution in two parts, evolving from the convex hull of the interior curve to each one of the others. The thickness profile obtained is used to extract some features to detect a uterine disease (endometritis) in dairy cattle, based in ultrasound images. Some results of thickness profiles in real and sythetic curves are shown, as well as a preliminary endometritis diagnose using this features. 
 \end{abstract}
 
 \begin{keywords}
-Curves evolution, thickness, distance, endometritis
+Curves evolution, thickness, distance, endometritis, ultrasound images.
 \end{keywords}
 
 \section{Introduction}
 \label{sec:intro}
-This work addresses the problem of finding an entire thickness profile between two closed curves, that do not intersect and one is interior to the other. The particular application considered is to detect a common uterine disease in dairy cattle using ultrasonographic images. 
-%An expert in ultrasonographic diagnosis affirms (Giovanni Gnemmi, personal communication, May 18th, 2013) that the relation between some muscles thickness can be a relevant characteristic to diagnostic this disease. 
-The relation between some muscles thickness can be a relevant feature to diagnose this disease~\cite{Gianni2010} \textcolor{red}{Gianni: es esta la mejor referencia para decir que los anchos son importantes?}.
-In this work we explore this possibility developing a system to
-measure this feature. Figure \ref{fig:defs}a shows a typical setting
-of the closed curves involved in the problem: $\Gamma_1$, $\Gamma_2$,
-$\Gamma_3$. Curves are always in this order and there is no
-intersection between them, since they are the limits of muscles and
-tissues in cattle uterine horns. $\Gamma_1$ and $\Gamma_2$ are not assumed to be convex but presents a smooth curvature variation, while $\Gamma_3$ is non convex, with high curvature variation and even not differentiable in some points. The main goal is to define and measure the thickness profile of the muscles, which means to find the thickness of the region between $\Gamma_1$ and $\Gamma_2$, and between $\Gamma_2$ and $\Gamma_3$. In the literature there are some measures of distance between two curves, such as Housedorff~\cite{libroMorel}, or Sobolev~\cite{statistics}, providing a numeric value for the distance or dissimilarity between curves, but we are interested, as said, in the entire thickness profile. To compute the thickness of a region, the first question to ask is how to conceptually define the thickness between two curves. It is clear that is a local characteristic that depends of at least two points in different curves. The distance function for each point of a curve to the other curve leads to a non-intuitive definition of the thickness, see Figure \ref{fig:comp}. Several methods, like the one presented in~\cite{paperWarping}, finds the correspondence between two morphologically different objects by the minimization of a similarity criterion function. Other methods resolve the correspondence by circle mapping~\cite{libro}: the vertices of the source and target curves are projected on circles of the same radius, and then merged. The merged set of vertices are projected back onto each curve, obtaining curves with the same number of vertices, and in a pairwise correspondence. In this work we propose an algorithm based on the normal evolution of one curve and considering the other curve as target. In the evolution are included some mechanisms of creating and combining points to ensure a correct sampling of the curves at all steps. The thickness is measured as the length of the path in the evolution from one curve to the other. This algorithm finds an intuitive correspondence between points of the different curves and leads to an appropriate thickness definition.
+Given two closed curves, that do not intersect and one is interior to the other, this work addresses the problem of finding an entire thickness profile between them. Figure \ref{fig:defs}a shows a typical setting of the curves involved in the problem: $\Gamma_1$, $\Gamma_2$, $\Gamma_3$. None of the curves is assumed to be convex, but typically $\Gamma_1$ and $\Gamma_2$ presents a smooth curvature variation, while $\Gamma_3$ (typically non convex) presents a high curvature variation and in some cases is even not differentiable in some points. 
 \begin{figure}[t]
 \begin{minipage}[b]{.45\linewidth}
   \centering
@@ -60,12 +52,15 @@ tissues in cattle uterine horns. $\Gamma_1$ and $\Gamma_2$ are not assumed to be
   \centerline{(b)}\medskip
 \end{minipage}
 \vspace{-10pt}
-\caption{Definitions. A schematic representation of the problem is shown in (a), while in (b) is presented a real example of the application. The region between $\Gamma_1$ and $\Gamma_2$ is called \emph{Myometrium}, the region between $\Gamma_2$ and $\Gamma_3$ \emph{Endometrium} and the region inside $\Gamma_3$ \emph{Lumen}. Measuring the thickness profile of the Myometrium and Endometrium is the goal of this work.}
+\caption{Definitions. A schematic representation of the problem is shown in (a), while in (b) is presented a real example of the application. The region between $\Gamma_1$ and $\Gamma_2$ is called \emph{Myometrium}, the region between $\Gamma_2$ and $\Gamma_3$ \emph{Endometrium} and the region inside $\Gamma_3$ \emph{Lumen}.}
 \vspace{-5pt}
 \label{fig:defs}
 \end{figure}
+The main goal is to define and measure the thickness profile of the regions between $\Gamma_1$ and $\Gamma_2$, and between $\Gamma_2$ and $\Gamma_3$.
 
-The description of the particular problem considered and the proposal are presented in Section \ref{sec:proposal}. In Section \ref{sec:results} are presented synthetic and real results and a final application to diagnostic an uterine disease using descriptors extracted from the thickness profile. Finally, in Section \ref{sec:conc} we present some conclusions and future work.
+In the literature there are some measures of distance between two curves, such as Housedorff~\cite{libroMorel}, or Sobolev~\cite{statistics}, providing a numeric value for the distance or dissimilarity between curves, but we are interested, as said, in the entire thickness profile. To compute the thickness of a region, the first question to ask is how to conceptually define the thickness between two curves. Several methods, like the one presented in~\cite{paperWarping}, finds the correspondence between two morphologically different objects by the minimization of a similarity criterion function. Other methods resolve the correspondence by circle mapping~\cite{libro}: the vertices of the origin and target curves are projected on circles of the same radius, and then merged. The merged set of vertices are projected back onto each curve, obtaining curves with the same number of vertices, and in a pairwise correspondence. In this work we propose a simple algorithm that finds this correspondence in a natural way using curves evolution \cite{curvesEvol}. It is based on the normal evolution of the interior curve (the origin curve) and considers the other curve as target. In the evolution are included some mechanisms of creating and combining points to ensure a correct sampling at all steps. The thickness is measured as the length of the path in the evolution. This algorithm finds an intuitive correspondence between points of the different curves and leads to an appropriate thickness definition.
+
+The application considered is to detect a common uterine disease (endometritis) in dairy cattle using ultrasound (US) images. The relation between some muscles thickness can be a relevant feature to diagnose this disease~\cite{Gianni2010}, so in this work we explore this possibility developing a system to measure this feature. In Figure \ref{fig:defs}b is shown a typical US image with the curves $\Gamma_i,\;\;i=1\dots3$ overprinted. Curves are always in this order and there is no intersection between them, since they are the limits of muscles and tissues in cattle uterine horns. Measuring the thickness profile of the Myometrium and Endometrium is the goal of this work.
 \begin{figure*}[t]
 \begin{minipage}[b]{.32\linewidth}
   \centering
@@ -81,12 +76,15 @@ The description of the particular problem considered and the proposal are presen
 \hfill
 \begin{minipage}[b]{.32\linewidth}
   \centering
-  \centerline{\includegraphics[width=5.8cm]{pics/cmp_evol}}
+  \centerline{\includegraphics[width=5.8cm]{pics/cmp_evol_pelada}}
   \centerline{(c)}\medskip
 \end{minipage}
 \caption{Comparison between different proposals. (a) Distance function from the points in the outer curve to the inner curve. (b) Defining the middle curve as the curve equidistant to both curves, the thickness is measured as the length of the normal to the middle curve. (c) Proposal: the blue lines represent the path traveled by the original points during evolution, and the orange lines corresponds to points created during evolution, see Section \ref{sec:proposal}.}
 \label{fig:comp}
+\vspace{-10pt}
 \end{figure*}
+
+The description of the particular problem considered and the proposal are presented in Section \ref{sec:proposal}. In Section \ref{sec:results} are presented results using synthetic and real curves and a final application to diagnose endometritis using descriptors extracted from the thickness profile. Finally, in Section \ref{sec:conc} we present conclusions and future work.
 
 
 \section{Problem description and proposal}
@@ -106,12 +104,7 @@ Our proposal is based on the simplest curves evolution: the normal evolution. Le
   p_i^{t+1}=p_i^t+\eta \; \vec{n}_{p_i}^t.
   \label{ec:normal}
 \end{equation}
-Due to the nature of the curves described in Section \ref{sec:intro}, considering the non convexity of the curves, we propose to perform a two step evolution, which in the final step are joined to obtain a single result. While measuring the thickness between $\Gamma_m$ and $\Gamma_{m-1}$, if $\Gamma_m$ is non convex, an auxiliary curve is considered: the convex hull of curve $\Gamma_m$ ($\Gamma_m^{CH}$) ~\cite{libro}. The two steps of the evolution are:
-\begin{enumerate}
-  \item Evolution from $\Gamma_m^{CH}$ to $\Gamma_m$
-  \item Evolution from $\Gamma_m^{CH}$ to $\Gamma_{m-1}$
-\end{enumerate}
-The final width, or distance between curves, is calculated as the distance of the path traveled by each point of the curve. The original curves are created with a cubic interpolation of a few points indicated by the expert and then re-sampled according to curvature, using more points in regions with higher curvature. The sampling of $\Gamma_m^{CH}$ is done by two different ways according to each point nature: points $p_i\in\Gamma_{m}$ that also belongs to $\Gamma_m^{CH}$ are directly used, and in regions where $\Gamma_m$ do not match $\Gamma_m^{CH}$, an uniform sampling is performed such that both curves have the same number of points.
+Due to the nature of the curves described in Section \ref{sec:intro}, considering the non convexity of the curves, we propose to perform a two step evolution, which in the final step are joined to obtain a single result. While measuring the thickness between $\Gamma_m$ and $\Gamma_{m-1}$, if $\Gamma_m$ is non convex, an auxiliary curve is considered: the convex hull of curve $\Gamma_m$ ($\Gamma_m^{CH}$) ~\cite{libro}. The two steps of the evolution are: 1) Evolution from $\Gamma_m^{CH}$ to $\Gamma_m$, and 2) Evolution from $\Gamma_m^{CH}$ to $\Gamma_{m-1}$. The final width, or distance between curves, is calculated as the distance of the path traveled by each point of the curve. The original curves are created with a cubic interpolation of a few points indicated by the expert and then re-sampled according to curvature, using more points in regions with higher curvature. The sampling of $\Gamma_m^{CH}$ is done by two different ways according to each point nature: points $p_i\in\Gamma_{m}$ that also belongs to $\Gamma_m^{CH}$ are directly used, and in regions where $\Gamma_m$ do not match $\Gamma_m^{CH}$, an uniform sampling is performed such that both curves have the same number of points.
 
 Sampling conditions are considered at each step to ensure a correct representation of the curve. For that purpose we developed a simple mechanism of creating and combining points while evolving the curve. At the beginning of the evolution, the mean distance, $\delta$, between adjacent points is computed. The procedure of creating new points consists on evaluating at each evolution step $t$ if the distance between two adjacent points $p_i^t$ and $p_{i+1}^t$ is greater than $2\delta$. In this case, a new point, $p_k^t$, is created between $p_i^t$ and $p_{i+1}^t$ as the middle point. $p_k^t$ is initialized with the mean of the distance traveled by points $p_i^t$ and $p_{i+1}^t$, see Figure \ref{fig:nacimiento_y_muerte}a. The procedure to combine points is based on the evaluation of a proximity condition. If $\eta\frac{\vec{n}_{p_i}^{t-1}}{||\vec{n}_{p_i}^{t-1}||}$ and $\eta\frac{\vec{n}_{p_i+1}^{t-1}}{||\vec{n}_{p_i+1}^{t-1}||}$ are intersected, points $p_i^t$ and $p_{i+1}^t$ will be joined into a new one, placed in that intersection, see Figure \ref{fig:nacimiento_y_muerte}b.
 \begin{figure}[t]
@@ -194,6 +187,7 @@ In this section we present results obtained in real ultrasonography images. The 
   \centerline{\includegraphics[width=6.5cm]{pics/realWidth3}}
   \centerline{(f)}\medskip
 \end{minipage}
+\vspace{-15pt}
 \caption{Results on real images. Images shows three different real situations. In (a), (c) and (e) is shown the path traveled by points of curves during the evolution, and in (b), (d) and (f) their respective thickness profiles obtained. The blue line corresponds to the thickness between $\Gamma_1$ and $\Gamma_2$, and the orange line corresponds to the thickness between $\Gamma_2$ and $\Gamma_3$.}
 \label{fig:real}
 \end{figure*}
@@ -202,7 +196,7 @@ In this section we present results obtained in real ultrasonography images. The 
 \label{ssec:clasification}
 The algorithm was applied to a database tagged by the expert, knowing which cows has sub-clinical endometritis. In a preliminary study of the problem the thickness profile obtained for each image was used to obtain some descriptors in order to perform an automatic supervised classification in two classes: cattle with or without endometritis. The extracted features try to simulate what the expert analyzes to diagnose: maximum thickness of endometrium normalized by endometrium area and maximum thickness of myometrium with and without the area normalization.
 
-Performing a feature selection using a wrapper method and a classification with multilayer perceptron we obtained results that, although preliminary, seems to be very promissory. We were able to correctly classify 91.67\% of instances, with a recall of 91.7\% and a precision of 92.9\%. This results are showing that the features obtained from the thickness profile, which could not be extracted using other measures such as euclidean distance, can play an important role in detecting sub-clinical endometritis.
+Performing a feature selection using a wrapper method and classification with multilayer perceptron, we obtained results that, although preliminary, seems to be very promissory. Using a 6-fold cross validation we were able to correctly classify 91.67\% of instances, with a recall of 91.7\% and a precision of 92.9\%. This results are showing that the features obtained from the thickness profile, which could not be extracted using other measures such as euclidean distance, can play an important role in detecting sub-clinical endometritis.
 
 \section{Conclusion}
 \label{sec:conc}
@@ -210,7 +204,7 @@ In this work we present an algorithm to measure the thickness of a
 region delimited by two closed curves, without any regularity
 assumptions on the curves. The curves are sampled according to
 curvature and the algorithm is based on the normal evolution with
-constant velocity of the points of the curve to evolve. Mechanisms of
+constant velocity. Mechanisms of
 creating and combining points during evolution were designed and
 implemented, ensuring a good representation of the curve in each
 step. To deal with the ``irregularity'', meaning the high variation of
