@@ -1,10 +1,5 @@
 \begin{thebibliography}{10}
 
-\bibitem{Gianni2010}
-G.~Gnemmi and C.~Maraboli,
-\newblock ``{Endometrite subclinica nel bovino da latte.},''
-\newblock Aug. 2010.
-
 \bibitem{libroMorel}
 J.-M. Morel and S.~Solimini,
 \newblock {\em Variational Methods in Image Segmentation},
@@ -27,6 +22,15 @@ D.~Meier and E.~Fisher,
 J.~Gomes, L.~Darsa, B.~Costa, and L.~Velho,
 \newblock {\em Warping and Morphing of Graphical Objects}, vol.~1,
 \newblock Morgan Kaufmann, 1998.
+
+\bibitem{curvesEvol}
+Frederic Cao,
+\newblock ``Geometric curve evolution and image processing,'' 2003.
+
+\bibitem{Gianni2010}
+G.~Gnemmi and C.~Maraboli,
+\newblock ``{Endometrite subclinica nel bovino da latte.},''
+\newblock Aug. 2010.
 
 \bibitem{gac}
 V.~Caselles, R.~Kimmel, and G.~Sapiro,

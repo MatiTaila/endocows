@@ -44,12 +44,12 @@ Given two closed curves, that do not intersect and one is interior to the other,
 \begin{minipage}[b]{.45\linewidth}
   \centering
   \centerline{\includegraphics[width=3.8cm]{pics/defs2}}
-  \centerline{(a)}\medskip
+  \centerline{(a)}%\medskip
 \end{minipage}\hfill
 \begin{minipage}[b]{.52\linewidth}
   \centering
   \centerline{\includegraphics[width=4.2cm]{pics/defsEndo}}
-  \centerline{(b)}\medskip
+  \centerline{(b)}%\medskip
 \end{minipage}
 \vspace{-10pt}
 \caption{Definitions. A schematic representation of the problem is shown in (a), while in (b) is presented a real example of the application. The region between $\Gamma_1$ and $\Gamma_2$ is called \emph{Myometrium}, the region between $\Gamma_2$ and $\Gamma_3$ \emph{Endometrium} and the region inside $\Gamma_3$ \emph{Lumen}.}
@@ -65,19 +65,19 @@ The application considered is to detect a common uterine disease (endometritis) 
 \begin{minipage}[b]{.32\linewidth}
   \centering
   \centerline{\includegraphics[width=5.8cm]{pics/cmp_dist}}
-  \centerline{(a)}\medskip
+  \centerline{(a)}%\medskip
 \end{minipage}
 \hfill
 \begin{minipage}[b]{.32\linewidth}
   \centering
   \centerline{\includegraphics[width=5.8cm]{pics/cmp_norm2}}
-  \centerline{(b)}\medskip
+  \centerline{(b)}%\medskip
 \end{minipage}
 \hfill
 \begin{minipage}[b]{.32\linewidth}
   \centering
   \centerline{\includegraphics[width=5.8cm]{pics/cmp_evol_pelada}}
-  \centerline{(c)}\medskip
+  \centerline{(c)}%\medskip
 \end{minipage}
 \caption{Comparison between different proposals. (a) Distance function from the points in the outer curve to the inner curve. (b) Defining the middle curve as the curve equidistant to both curves, the thickness is measured as the length of the normal to the middle curve. (c) Proposal: the blue lines represent the path traveled by the original points during evolution, and the orange lines corresponds to points created during evolution, see Section \ref{sec:proposal}.}
 \label{fig:comp}
@@ -111,13 +111,13 @@ Sampling conditions are considered at each step to ensure a correct representati
 \begin{minipage}[b]{.5\linewidth}
   \centering
   \centerline{\includegraphics[width=4.3cm]{pics/nacimiento}}
-  \centerline{(a)}\medskip
+  \centerline{(a)}%\medskip
 \end{minipage}
 \hfill
 \begin{minipage}[b]{.48\linewidth}
   \centering
   \centerline{\includegraphics[width=3.7cm]{pics/muerte}}
-  \centerline{(b)}\medskip
+  \centerline{(b)}%\medskip
 \end{minipage}
 \caption{Mechanisms of creating and combining points during evolution. (a) A new point is created (red point) if the distance between adjacent points exceeds a predefined threshold. (b) Two points are combined if their normals normalized and multiplied by the step length intersect each other.}
 \label{fig:nacimiento_y_muerte}
@@ -134,12 +134,12 @@ In order to show the algorithm performance, a synthetic example is presented. Th
 \begin{minipage}[b]{1\linewidth}
   \centering
   \centerline{\includegraphics[width=5cm]{pics/synth4}}
-  \centerline{(a)}\medskip
+  \centerline{(a)}%\medskip
 \end{minipage}
 \begin{minipage}[b]{1\linewidth}
   \centering
   \centerline{\includegraphics[width=8.5cm]{pics/synthWidth4}}
-  \centerline{(b)}\medskip
+  \centerline{(b)}%\medskip
 \end{minipage}
 \caption{Creation and combination of curve points. (a) Path traveled by points during the evolution. The blue lines corresponds to the evolution of the original points, while orange lines corresponds to created points. (b) Thickness profile relative to the angle measured from the center of the circles. In blue is shown the thickness of region between $\Gamma_1$ and $\Gamma_2$, and in orange between $\Gamma_2$ and $\Gamma_3$.}
 \label{fig:synth}
@@ -155,37 +155,37 @@ In this section we present results obtained in real ultrasonography images. The 
 \begin{minipage}[b]{.26\linewidth}
   \centering
   \centerline{\includegraphics[width=6.25cm]{pics/rreal}}
-  \centerline{(a)}\medskip
+  \centerline{(a)}%\medskip
 \end{minipage}
 \hfill
 \begin{minipage}[b]{.33\linewidth}
   \centering
   \centerline{\includegraphics[width=5.5cm]{pics/rreal4}}
-  \centerline{(c)}\medskip
+  \centerline{(c)}%\medskip
 \end{minipage}
 \hfill
 \begin{minipage}[b]{.33\linewidth}
   \centering
   \centerline{\includegraphics[width=6.2cm]{pics/rreal3}}
-  \centerline{(e)}\medskip
+  \centerline{(e)}%\medskip
 \end{minipage}
 \hfill
 \begin{minipage}[b]{.33\linewidth}
   \centering
   \centerline{\includegraphics[width=6.5cm]{pics/realWidth}}
-  \centerline{(b)}\medskip
+  \centerline{(b)}%\medskip
 \end{minipage}
 \hfill
 \begin{minipage}[b]{.33\linewidth}
   \centering
   \centerline{\includegraphics[width=6.5cm]{pics/realWidth4}}
-  \centerline{(d)}\medskip
+  \centerline{(d)}%\medskip
 \end{minipage}
 \hfill
 \begin{minipage}[b]{.33\linewidth}
   \centering
   \centerline{\includegraphics[width=6.5cm]{pics/realWidth3}}
-  \centerline{(f)}\medskip
+  \centerline{(f)}%\medskip
 \end{minipage}
 \vspace{-15pt}
 \caption{Results on real images. Images shows three different real situations. In (a), (c) and (e) is shown the path traveled by points of curves during the evolution, and in (b), (d) and (f) their respective thickness profiles obtained. The blue line corresponds to the thickness between $\Gamma_1$ and $\Gamma_2$, and the orange line corresponds to the thickness between $\Gamma_2$ and $\Gamma_3$.}
@@ -241,34 +241,34 @@ FMV~2\_2011\_1\_7376.
 %\vfill
 %\pagebreak
 
-% Below is an example of how to insert images. Delete the ``\vspace'' line,
-% uncomment the preceding line ``\centerline...'' and replace ``imageX.ps''
-% with a suitable PostScript file name.
-% -------------------------------------------------------------------------
-\begin{figure}[t]
+% % Below is an example of how to insert images. Delete the ``\vspace'' line,
+% % uncomment the preceding line ``\centerline...'' and replace ``imageX.ps''
+% % with a suitable PostScript file name.
+% % -------------------------------------------------------------------------
+% \begin{figure}[t]
 
-\begin{minipage}[b]{1.0\linewidth}
-  \centering
-  \centerline{\includegraphics[width=8.5cm]{pics/image1}}
-%  \vspace{2.0cm}
-  \centerline{(a) Result 1}\medskip
-\end{minipage}
-%
-\begin{minipage}[b]{.48\linewidth}
-  \centering
-  \centerline{\includegraphics[width=4.0cm]{pics/image3}}
-%  \vspace{1.5cm}
-  \centerline{(b) Results 3}\medskip
-\end{minipage}
-\hfill
-\begin{minipage}[b]{0.48\linewidth}
-  \centering
-  \centerline{\includegraphics[width=4.0cm]{pics/image4}}
-%  \vspace{1.5cm}
-  \centerline{(c) Result 4}\medskip
-\end{minipage}
-%
-\caption{Example of placing a figure with experimental results.}
-\label{fig:res}
-%
-\end{figure}
+% \begin{minipage}[b]{1.0\linewidth}
+%   \centering
+%   \centerline{\includegraphics[width=8.5cm]{pics/image1}}
+% %  \vspace{2.0cm}
+%   \centerline{(a) Result 1}\medskip
+% \end{minipage}
+% %
+% \begin{minipage}[b]{.48\linewidth}
+%   \centering
+%   \centerline{\includegraphics[width=4.0cm]{pics/image3}}
+% %  \vspace{1.5cm}
+%   \centerline{(b) Results 3}\medskip
+% \end{minipage}
+% \hfill
+% \begin{minipage}[b]{0.48\linewidth}
+%   \centering
+%   \centerline{\includegraphics[width=4.0cm]{pics/image4}}
+% %  \vspace{1.5cm}
+%   \centerline{(c) Result 4}\medskip
+% \end{minipage}
+% %
+% \caption{Example of placing a figure with experimental results.}
+% \label{fig:res}
+% %
+% \end{figure}
